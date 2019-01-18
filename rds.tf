@@ -2,6 +2,12 @@
 # relational database service
 
 ### security/firewall 
+resource "random_string" "password" {
+  length = 16
+  special = true
+  override_special = "/@\" "
+}
+
 resource "aws_security_group" "db" {
   name        = "${local.name}-db"
   description = "security group for ${local.name}-db"
@@ -71,7 +77,7 @@ resource "aws_rds_cluster" "db" {
   skip_final_snapshot             = "true"
   database_name                   = "${var.mysql_db}"
   master_username                 = "${var.mysql_master_user}"
-  master_password                 = "${var.mysql_master_password}"
+  master_password                 = "${random_string.password.result}"
   snapshot_identifier             = "${var.mysql_snapshot}"
   backup_retention_period         = "5"
   db_subnet_group_name            = "${aws_db_subnet_group.db.name}"

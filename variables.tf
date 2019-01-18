@@ -40,11 +40,6 @@ variable "mysql_master_user" {
   default     = "yourid"
 }
 
-variable "mysql_master_password" {
-  description = "The name of master user of mysql"
-  default     = "^changeme^"
-}
-
 variable "mysql_db" {
   description = "The name of initial database in mysql"
   default     = "yourdb"
