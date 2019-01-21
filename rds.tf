@@ -3,9 +3,9 @@
 
 ### security/firewall 
 resource "random_string" "password" {
-  length = 16
-  special = true
-  override_special = "/@\" "
+  length           = 16
+  special          = true
+  override_special = "^"
 }
 
 resource "aws_security_group" "db" {
