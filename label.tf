@@ -11,6 +11,6 @@ resource "random_string" "suffix" {
 ### frigga naming rule
 locals {
   name         = "${join("-", compact(list(var.name, var.stack, var.detail, random_string.suffix.result)))}"
-  cluster_name = "${local.name}"
-  cluster_id   = "${local.name}"
+  cluster-name = "${local.name}"
+  cluster-id   = "${local.name}"
 }

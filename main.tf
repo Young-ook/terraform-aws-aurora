@@ -19,7 +19,7 @@ resource "aws_security_group" "db" {
   }"
 }
 
-resource "aws_security_group_rule" "db_ingress_rules" {
+resource "aws_security_group_rule" "db-ingress-rules" {
   type                     = "ingress"
   from_port                = "${var.mysql_port}"
   to_port                  = "${var.mysql_port}"
@@ -69,7 +69,7 @@ resource "aws_db_parameter_group" "db" {
 
 ### rds (aurora)
 resource "aws_rds_cluster" "db" {
-  cluster_identifier_prefix       = "${local.cluster_id}-"
+  cluster_identifier_prefix       = "${local.cluster-id}-"
   engine                          = "aurora-mysql"
   engine_version                  = "${var.mysql_version}"
   engine_mode                     = "provisioned"
@@ -94,7 +94,7 @@ resource "aws_rds_cluster" "db" {
 ### instances
 resource "aws_rds_cluster_instance" "db" {
   count                   = "${var.mysql_node_count}"
-  identifier              = "${local.cluster_id}-${count.index}"
+  identifier              = "${local.cluster-id}-${count.index}"
   cluster_identifier      = "${aws_rds_cluster.db.id}"
   instance_class          = "${var.mysql_node_type}"
   engine                  = "aurora-mysql"
@@ -106,7 +106,7 @@ resource "aws_rds_cluster_instance" "db" {
 ### dns records
 resource "aws_route53_record" "db" {
   zone_id = "${var.dns_zone_id}"
-  name    = "${local.cluster_id}-db.${var.dns_zone}"
+  name    = "${local.cluster-id}-db.${var.dns_zone}"
   type    = "CNAME"
   ttl     = 300
   records = ["${coalescelist(aws_rds_cluster.db.*.endpoint, list(""))}"]

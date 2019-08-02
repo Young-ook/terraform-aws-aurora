@@ -4,7 +4,7 @@
 You can use this module like as below example.
 
 ```
-odule "mysql" {
+module "mysql" {
   source  = "tf-mod/mysql/aws"
   version = "1.0.0"
 
