@@ -4,11 +4,11 @@
 You can use this module like as below example.
 
 ```
-odule "your_db" {
-  source  = "terraform-aws-mysql"
-  version = "v1.0.0"
+odule "mysql" {
+  source  = "tf-mod/mysql/aws"
+  version = "1.0.0"
 
-  app_name        = "mysql"
+  name            = "mysql"
   stack           = "${var.stack}"
   vpc             = "${module.vpc.id}"
   subnets         = "${module.vpc.private_subnets}"

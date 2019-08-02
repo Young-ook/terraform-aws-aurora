@@ -59,13 +59,13 @@ variable "tags" {
 }
 
 ### description
-variable "app_name" {
-  description = "The logical name of the module instance"
+variable "name" {
+  description = "The logical name"
   default     = "mysql"
 }
 
-variable "app_detail" {
-  description = "The extra description of module instance"
+variable "detail" {
+  description = "The extra description"
   default     = ""
 }
 
@@ -74,14 +74,9 @@ variable "stack" {
   default     = "default"
 }
 
-variable "slug" {
-  description = "A random string to be end of tail of module name"
-  default     = ""
-}
-
 ### dns
 variable "dns_zone" {
-  description = "The hosted zone name for internal dns, e.g., ${var.dns_zone}.internal"
+  description = "The hosted zone name for internal dns, e.g., app.internal"
 }
 
 variable "dns_zone_id" {

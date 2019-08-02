@@ -1,6 +1,6 @@
 # label.tf
 
-resource "random_string" "this" {
+resource "random_string" "suffix" {
   length  = 4
   upper   = false
   lower   = true
@@ -10,8 +10,7 @@ resource "random_string" "this" {
 
 ### frigga naming rule
 locals {
-  name         = "${join("-", compact(list(var.app_name, var.stack, var.app_detail, local.slug)))}"
-  slug         = "${var.slug == "" ? random_string.this.result : var.slug}"
+  name         = "${join("-", compact(list(var.name, var.stack, var.detail, random_string.suffix.result)))}"
   cluster_name = "${local.name}"
   cluster_id   = "${local.name}"
 }
