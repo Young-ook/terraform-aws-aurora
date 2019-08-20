@@ -82,3 +82,8 @@ variable "dns_zone" {
 variable "dns_zone_id" {
   description = "The hosted zone id for internal dns, e.g., ZFD3TFKDJ1L"
 }
+
+variable "apply_immediately" {
+  description = "pecifies whether any database modifications are applied immediately, or during the next maintenance window"
+  default     = false
+}
