@@ -41,14 +41,14 @@ resource "aws_rds_cluster_parameter_group" "db" {
     element(split(".", var.mysql_version), 1)
   )
 
-  parameter {
-    name  = "character_set_server"
-    value = "utf8"
-  }
+  dynamic parameter {
+    iterator = parameter
+    for_each = local.mysql_cluster_parameters
 
-  parameter {
-    name  = "character_set_client"
-    value = "utf8"
+    content {
+      name  = parameter.name
+      value = parameter.value
+    }
   }
 
   lifecycle {

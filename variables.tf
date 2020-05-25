@@ -52,6 +52,11 @@ variable "mysql_snapshot" {
   default     = ""
 }
 
+variable "mysql_cluster_parameters" {
+  description = " A dict of DB parameters to apply. Note that parameters may differ from a family to an other."
+  default     = {}
+}
+
 ### tags
 variable "tags" {
   description = "The key-value maps for tagging"
