@@ -28,7 +28,7 @@ resource "aws_security_group_rule" "db-ingress-rules" {
 ### subnet group
 resource "aws_db_subnet_group" "db" {
   name       = format("%s-db", local.name)
-  subnet_ids = [var.subnets]
+  subnet_ids = var.subnets
   tags       = merge(map("Name", format("%s-db", local.name)), var.tags)
 }
 
@@ -41,10 +41,15 @@ resource "aws_rds_cluster_parameter_group" "db" {
     element(split(".", var.mysql_version), 1)
   )
 
-  parameter = list(
-    map("name", "character_set_server", "value", "utf8"),
-    map("name", "character_set_client", "value", "utf8"),
-  )
+  parameter {
+    name  = "character_set_server"
+    value = "utf8"
+  }
+
+  parameter {
+    name  = "character_set_client"
+    value = "utf8"
+  }
 
   lifecycle {
     create_before_destroy = true
@@ -105,8 +110,8 @@ resource "aws_rds_cluster_instance" "db" {
 ### dns records
 resource "aws_route53_record" "db" {
   zone_id = var.dns_zone_id
-  name    = format("%s-db.%s", local.cluster-id.var.dns_zone)
+  name    = format("%s-db.%s", local.cluster-id, var.dns_zone)
   type    = "CNAME"
   ttl     = 300
-  records = [coalescelist(aws_rds_cluster.db.*.endpoint, list(""))]
+  records = coalescelist(aws_rds_cluster.db.*.endpoint, list(""))
 }
