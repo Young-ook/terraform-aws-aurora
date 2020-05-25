@@ -7,7 +7,7 @@ variable "vpc" {
 
 variable "subnets" {
   description = "The list of subnet ids to deploy"
-  type        = "list"
+  type        = list
 }
 
 variable "source_sg" {
@@ -45,7 +45,7 @@ variable "mysql_db" {
   default     = "yourdb"
 }
 
-#  [CAUTION] Changing the snapshot will force a new resource.
+# [CAUTION] Changing the snapshot will force a new resource.
 
 variable "mysql_snapshot" {
   description = "The name of snapshot to be source of new mysql cluster"
@@ -57,10 +57,15 @@ variable "mysql_cluster_parameters" {
   default     = {}
 }
 
+variable "apply_immediately" {
+  description = "pecifies whether any database modifications are applied immediately, or during the next maintenance window"
+  default     = false
+}
+
 ### tags
 variable "tags" {
   description = "The key-value maps for tagging"
-  type        = "map"
+  type        = map
 }
 
 ### description
@@ -86,9 +91,4 @@ variable "dns_zone" {
 
 variable "dns_zone_id" {
   description = "The hosted zone id for internal dns, e.g., ZFD3TFKDJ1L"
-}
-
-variable "apply_immediately" {
-  description = "pecifies whether any database modifications are applied immediately, or during the next maintenance window"
-  default     = false
 }
