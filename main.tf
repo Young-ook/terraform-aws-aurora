@@ -46,7 +46,7 @@ resource "aws_rds_cluster_parameter_group" "db" {
     for_each = local.mysql_cluster_parameters
 
     content {
-      name  = parameter.name
+      name  = parameter.key
       value = parameter.value
     }
   }
@@ -88,7 +88,7 @@ resource "aws_rds_cluster" "db" {
   tags                            = merge(map("Name", format("%s-db", local.name)), var.tags)
 
   lifecycle {
-    ignore_changes        = ["snapshot_identifier", "master_password"]
+    ignore_changes        = [snapshot_identifier, master_password]
     create_before_destroy = true
   }
 }
