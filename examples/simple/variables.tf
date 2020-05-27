@@ -6,6 +6,11 @@ variable "aws_account_id" {
 }
 
 ### network
+variable "aws_region" {
+  description = "The aws region to deploy the service into"
+  default     = "us-east-1"
+}
+
 variable "vpc" {
   description = "The vpc id to deploy"
 }

@@ -8,7 +8,7 @@ This is the first step to create a spinnaker cluster. Just get terraform module 
 
 #### Easy and simple example
 ```
-module "spinnaker" {
+module "mysql" {
   source          = "git::git@github.com:Young-ook/terraform-aws-mysql.git?ref=1.0.0"
   name            = "mysql"
   stack           = var.stack
