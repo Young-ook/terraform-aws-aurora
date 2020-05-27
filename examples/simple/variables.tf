@@ -1,19 +1,16 @@
-# [DO NOT REMOVE] Variables for testing framework
-variable "aws_region" {
-  description = "The AWS region name for the VPC (e.g. ap-northeast-2)"
-  type        = string
-  default     = "ap-northeast-2"
-}
-
-variable "build_num" {
-  description = "The build number of CI"
-  type        = string
-  default     = "1"
-}
-
 # Variables for providing to module fixture codes
 
+### aws credential
+variable "aws_account_id" {
+  description = "The aws account id for the tf backend creation (e.g. 857026751867)"
+}
+
 ### network
+variable "aws_region" {
+  description = "The aws region to deploy the service into"
+  default     = "us-east-1"
+}
+
 variable "vpc" {
   description = "The vpc id to deploy"
 }
@@ -58,7 +55,7 @@ variable "mysql_db" {
   default     = "yourdb"
 }
 
-#  [CAUTION] Changing the snapshot will force a new resource.
+# [CAUTION] Changing the snapshot will force a new resource.
 
 variable "mysql_snapshot" {
   description = "The name of snapshot to be source of new mysql cluster"
@@ -105,4 +102,3 @@ variable "dns_zone" {
 variable "dns_zone_id" {
   description = "The hosted zone id for internal dns, e.g., ZFD3TFKDJ1L"
 }
-
