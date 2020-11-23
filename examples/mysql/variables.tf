@@ -7,17 +7,15 @@ variable "aws_account_id" {
 
 ### network
 variable "aws_region" {
-  description = "The aws region to deploy the service into"
+  description = "The aws region to deploy"
+  type        = string
   default     = "us-east-1"
 }
 
-variable "vpc" {
-  description = "The vpc id to deploy"
-}
-
-variable "subnets" {
-  description = "The list of subnet ids to deploy"
-  type        = list
+variable "azs" {
+  description = "A list of availability zones for the vpc to deploy resources"
+  type        = list(string)
+  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
 }
 
 variable "source_sg" {

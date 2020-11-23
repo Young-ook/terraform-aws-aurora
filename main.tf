@@ -1,5 +1,4 @@
-# rds.tf
-# relational database service
+# aurora cluster
 
 ### security/firewall
 resource "random_string" "password" {
