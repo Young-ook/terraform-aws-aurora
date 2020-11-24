@@ -1,11 +1,22 @@
-# Aurora for mysql
+# Amazon Aurora
+[Amazon Aurora](https://aws.amazon.com/rds/aurora/) is a MySQL and PostgreSQL-compatible relational database built for the cloud, that combines the performance and availability of traditional enterprise databases with the simplicity and cost-effectiveness of open source databases.
 
-This is a terraform module to build and manage an aws aurora-mysql cluster. If you want to know how to use this module please check below examples.
+* This module will create an Amazon Aurora Cluster on AWS.
 
-## Example
+## Examples
+- [MySQL Example](https://github.com/Young-ook/terraform-aws-aurora/blob/master/examples/mysql)
 
-- [Example](https://github.com/Young-ook/terraform-aws-mysql/tree/master/examples/simple)
-
-## License
-
-See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
+## Quickstart
+### Setup
+```hcl
+module "aurora" {
+  source  = "Young-ook/aurora/aws"
+  name    = "aurora"
+  tags    = { env = "test" }
+}
+```
+Run terraform:
+```
+$ terraform init
+$ terraform apply
+```

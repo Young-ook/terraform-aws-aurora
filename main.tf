@@ -1,53 +1,64 @@
 # aurora cluster
 
-### security/firewall
-resource "random_string" "password" {
+# condition
+locals {
+  enabled = var.aurora_cluster != null ? true : false
+}
+
+# security/password
+resource "random_password" "password" {
+  count            = local.enabled ? 1 : 0
   length           = 16
   special          = true
   override_special = "^"
 }
 
+# security/firewall
 resource "aws_security_group" "db" {
-  name        = format("%s-db", local.name)
-  description = format("security group for %s-db", local.name)
+  count       = local.enabled ? 1 : 0
+  name        = format("%s-db", var.name)
+  description = format("security group for %s-db", var.name)
   vpc_id      = var.vpc
-
-  tags = merge(map("Name", format("%s-db", local.name)), var.tags)
+  tags        = merge(local.default-tags, var.tags)
 }
 
 resource "aws_security_group_rule" "db-ingress-rules" {
-  type                     = "ingress"
-  from_port                = var.mysql_port
-  to_port                  = var.mysql_port
-  protocol                 = "tcp"
-  source_security_group_id = var.source_sg
-  security_group_id        = aws_security_group.db.id
+  count             = local.enabled ? 1 : 0
+  type              = "ingress"
+  from_port         = lookup(var.aurora_cluster, "port", "3306")
+  to_port           = lookup(var.aurora_cluster, "port", "3306")
+  protocol          = "tcp"
+  cidr_blocks       = var.cidrs
+  security_group_id = aws_security_group.db[0].id
 }
 
-### subnet group
+# subnet group
 resource "aws_db_subnet_group" "db" {
-  name       = format("%s-db", local.name)
+  count      = local.enabled ? 1 : 0
+  name       = format("%s-db", var.name)
   subnet_ids = var.subnets
-  tags       = merge(map("Name", format("%s-db", local.name)), var.tags)
+  tags       = merge(local.default-tags, var.tags)
 }
 
-### parameter groups
+# parameter groups
 resource "aws_rds_cluster_parameter_group" "db" {
-  name = format("%s-db-cluster-params", local.name)
+  count = local.enabled ? 1 : 0
+  name  = format("%s-db-cluster-params", var.name)
 
-  family = format("aurora-mysql%s.%s",
-    element(split(".", var.mysql_version), 0),
-    element(split(".", var.mysql_version), 1)
+  family = format("%s%s.%s",
+    lookup(var.aurora_cluster, "engine", "aurora-mysql"),
+    element(split(".", lookup(var.aurora_cluster, "version", "5.7.12")), 0),
+    element(split(".", lookup(var.aurora_cluster, "version", "5.7.12")), 1)
   )
 
-  dynamic parameter {
-    iterator = parameter
-    for_each = local.mysql_cluster_parameters
+  parameter {
+    name  = "character_set_server"
+    value = "utf8"
+  }
 
-    content {
-      name  = parameter.key
-      value = parameter.value
-    }
+  parameter {
+    name  = "character_set_client"
+    value = "utf8"
   }
 
   lifecycle {
@@ -56,11 +67,13 @@ resource "aws_rds_cluster_parameter_group" "db" {
 }
 
 resource "aws_db_parameter_group" "db" {
-  name = format("%s-db-params", local.name)
+  count = local.enabled ? 1 : 0
+  name  = format("%s-db-params", var.name)
 
-  family = format("aurora-mysql%s.%s",
-    element(split(".", var.mysql_version), 0),
-    element(split(".", var.mysql_version), 1)
+  family = format("%s%s.%s",
+    lookup(var.aurora_cluster, "engine", "aurora-mysql"),
+    element(split(".", lookup(var.aurora_cluster, "version", "5.7.12")), 0),
+    element(split(".", lookup(var.aurora_cluster, "version", "5.7.12")), 1)
   )
 
   lifecycle {
@@ -68,23 +81,24 @@ resource "aws_db_parameter_group" "db" {
   }
 }
 
-### rds (aurora)
+# rds cluster
 resource "aws_rds_cluster" "db" {
-  cluster_identifier_prefix       = format("%s-", local.cluster-id)
-  engine                          = "aurora-mysql"
-  engine_version                  = var.mysql_version
+  count                           = local.enabled ? 1 : 0
+  cluster_identifier_prefix       = format("%s-", var.name)
+  engine                          = lookup(var.aurora_cluster, "engine", "aurora-mysql")
   engine_mode                     = "provisioned"
-  port                            = var.mysql_port
+  engine_version                  = lookup(var.aurora_cluster, "version", "5.7.12")
+  port                            = lookup(var.aurora_cluster, "port", "3306")
   skip_final_snapshot             = "true"
-  database_name                   = var.mysql_db
-  master_username                 = var.mysql_master_user
-  master_password                 = random_string.password.result
-  snapshot_identifier             = var.mysql_snapshot
-  backup_retention_period         = "5"
-  db_subnet_group_name            = aws_db_subnet_group.db.name
-  db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.db.name
-  vpc_security_group_ids          = [aws_security_group.db.id]
-  tags                            = merge(map("Name", format("%s-db", local.name)), var.tags)
+  database_name                   = lookup(var.aurora_cluster, "database", "yourdb")
+  master_username                 = lookup(var.aurora_cluster, "user", "yourid")
+  master_password                 = random_password.password[0].result
+  snapshot_identifier             = lookup(var.aurora_cluster, "snapshot_id", "")
+  backup_retention_period         = lookup(var.aurora_cluster, "backup_retention", "5")
+  db_subnet_group_name            = aws_db_subnet_group.db[0].name
+  db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.db[0].name
+  vpc_security_group_ids          = coalescelist(aws_security_group.db.*.id, [])
+  tags                            = merge(local.default-tags, var.tags)
 
   lifecycle {
     ignore_changes        = [snapshot_identifier, master_password]
@@ -92,25 +106,16 @@ resource "aws_rds_cluster" "db" {
   }
 }
 
-### instances
+# rds instances
 resource "aws_rds_cluster_instance" "db" {
-  count = var.mysql_node_count
-
-  identifier              = format("%s-%d", local.cluster-id, count.index)
-  cluster_identifier      = aws_rds_cluster.db.id
-  instance_class          = var.mysql_node_type
-  engine                  = "aurora-mysql"
-  engine_version          = var.mysql_version
-  db_parameter_group_name = aws_db_parameter_group.db.name
-  db_subnet_group_name    = aws_db_subnet_group.db.name
-  apply_immediately       = var.apply_immediately
-}
-
-### dns records
-resource "aws_route53_record" "db" {
-  zone_id = var.dns_zone_id
-  name    = format("%s-db.%s", local.cluster-id, var.dns_zone)
-  type    = "CNAME"
-  ttl     = 300
-  records = coalescelist(aws_rds_cluster.db.*.endpoint, list(""))
+  for_each                = { for key, val in var.aurora_instances : key => val }
+  identifier              = format("instance-%s", each.key)
+  cluster_identifier      = element(aws_rds_cluster.db.*.id, 0)
+  engine                  = lookup(var.aurora_cluster, "engine", "aurora-mysql")
+  engine_version          = lookup(var.aurora_cluster, "version", "5.7.12")
+  instance_class          = lookup(each.value, "node_type", "db.t3.medium")
+  db_parameter_group_name = aws_db_parameter_group.db[0].name
+  db_subnet_group_name    = aws_db_subnet_group.db[0].name
+  apply_immediately       = tobool(lookup(var.aurora_cluster, "apply_immedidately", "false"))
+  tags                    = merge(local.default-tags, var.tags)
 }
