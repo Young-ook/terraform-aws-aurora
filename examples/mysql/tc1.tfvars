@@ -20,7 +20,7 @@ aurora_instances = [
   {
     instance_type = "db.t3.medium"
     instance_parameters = {
-      autocommit = false
+      autocommit = 0
     }
   },
   {
