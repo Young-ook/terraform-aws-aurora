@@ -18,7 +18,7 @@ variable "azs" {
 }
 
 variable "cidrs" {
-  description = "The list of vpc CIDR blocks"
+  description = "The list of CIDR blocks to allow ingress traffic for db access"
   type        = list(string)
 }
 
@@ -28,7 +28,6 @@ variable "cidrs" {
 
 variable "aurora_cluster" {
   description = "RDS Aurora for mysql cluster definition"
-  type        = map
   default     = {}
 }
 
