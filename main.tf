@@ -1,8 +1,11 @@
-# aurora cluster
+# amazon aurora cluster
 
 # condition
 locals {
-  enabled = var.aurora_cluster != null ? true : false
+  enabled           = (var.aurora_cluster != null ? ((length(var.aurora_cluster) > 0) ? true : false) : false)
+  compatibility     = (local.enabled ? lookup(var.aurora_cluster, "engine", "aurora-mysql") : "aurora-mysql")
+  default_cluster   = (local.compatibility == "aurora-mysql" ? local.default_mysql_cluster : local.default_postgresql_cluster)
+  default_instances = (local.compatibility == "aurora-mysql" ? local.default_mysql_instances : local.default_postgresql_instances)
 }
 
 # security/password
@@ -25,8 +28,8 @@ resource "aws_security_group" "db" {
 resource "aws_security_group_rule" "db-ingress-rules" {
   count             = local.enabled ? 1 : 0
   type              = "ingress"
-  from_port         = lookup(var.aurora_cluster, "port", "3306")
-  to_port           = lookup(var.aurora_cluster, "port", "3306")
+  from_port         = lookup(var.aurora_cluster, "port", local.default_cluster["port"])
+  to_port           = lookup(var.aurora_cluster, "port", local.default_cluster["port"])
   protocol          = "tcp"
   cidr_blocks       = var.cidrs
   security_group_id = aws_security_group.db[0].id
@@ -45,20 +48,13 @@ resource "aws_rds_cluster_parameter_group" "db" {
   count = local.enabled ? 1 : 0
   name  = format("%s-db-cluster-params", var.name)
 
-  family = format("%s%s.%s",
-    lookup(var.aurora_cluster, "engine", "aurora-mysql"),
-    element(split(".", lookup(var.aurora_cluster, "version", "5.7.12")), 0),
-    element(split(".", lookup(var.aurora_cluster, "version", "5.7.12")), 1)
-  )
-
-  parameter {
-    name  = "character_set_server"
-    value = "utf8"
-  }
-
-  parameter {
-    name  = "character_set_client"
-    value = "utf8"
+  family = lookup(var.aurora_cluster, "family", local.default_cluster["family"])
+  dynamic "parameter" {
+    for_each = lookup(var.aurora_cluster, "cluster_parameters", local.default_cluster["cluster_parameters"])
+    content {
+      name  = parameter.key
+      value = parameter.value
+    }
   }
 
   lifecycle {
@@ -67,14 +63,17 @@ resource "aws_rds_cluster_parameter_group" "db" {
 }
 
 resource "aws_db_parameter_group" "db" {
-  count = local.enabled ? 1 : 0
-  name  = format("%s-db-params", var.name)
+  for_each = { for key, val in var.aurora_instances : key => val }
+  name     = format("%s-db-instance-%s-params", var.name, each.key)
 
-  family = format("%s%s.%s",
-    lookup(var.aurora_cluster, "engine", "aurora-mysql"),
-    element(split(".", lookup(var.aurora_cluster, "version", "5.7.12")), 0),
-    element(split(".", lookup(var.aurora_cluster, "version", "5.7.12")), 1)
-  )
+  family = lookup(var.aurora_cluster, "family", local.default_cluster["family"])
+  dynamic "parameter" {
+    for_each = lookup(var.aurora_instances[each.key], "instance_parameters", local.default_instances[0]["instance_parameters"])
+    content {
+      name  = parameter.key
+      value = parameter.value
+    }
+  }
 
   lifecycle {
     create_before_destroy = true
@@ -85,16 +84,16 @@ resource "aws_db_parameter_group" "db" {
 resource "aws_rds_cluster" "db" {
   count                           = local.enabled ? 1 : 0
   cluster_identifier_prefix       = format("%s-", var.name)
-  engine                          = lookup(var.aurora_cluster, "engine", "aurora-mysql")
-  engine_mode                     = "provisioned"
-  engine_version                  = lookup(var.aurora_cluster, "version", "5.7.12")
-  port                            = lookup(var.aurora_cluster, "port", "3306")
-  skip_final_snapshot             = "true"
-  database_name                   = lookup(var.aurora_cluster, "database", "yourdb")
-  master_username                 = lookup(var.aurora_cluster, "user", "yourid")
+  engine                          = lookup(var.aurora_cluster, "engine", local.default_cluster["engine"])
+  engine_mode                     = lookup(var.aurora_cluster, "engine_mode", local.default_cluster["engine_mode"])
+  engine_version                  = lookup(var.aurora_cluster, "version", local.default_cluster["version"])
+  port                            = lookup(var.aurora_cluster, "port", local.default_cluster["port"])
+  skip_final_snapshot             = lookup(var.aurora_cluster, "skip_final_snapshot", local.default_cluster["skip_final_snapshot"])
+  database_name                   = lookup(var.aurora_cluster, "database", local.default_cluster["database"])
+  master_username                 = lookup(var.aurora_cluster, "user", local.default_cluster["user"])
   master_password                 = random_password.password[0].result
-  snapshot_identifier             = lookup(var.aurora_cluster, "snapshot_id", "")
-  backup_retention_period         = lookup(var.aurora_cluster, "backup_retention", "5")
+  snapshot_identifier             = lookup(var.aurora_cluster, "snapshot_id", local.default_cluster["snapshot_id"])
+  backup_retention_period         = lookup(var.aurora_cluster, "backup_retention", local.default_cluster["backup_retention"])
   db_subnet_group_name            = aws_db_subnet_group.db[0].name
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.db[0].name
   vpc_security_group_ids          = coalescelist(aws_security_group.db.*.id, [])
@@ -109,13 +108,13 @@ resource "aws_rds_cluster" "db" {
 # rds instances
 resource "aws_rds_cluster_instance" "db" {
   for_each                = { for key, val in var.aurora_instances : key => val }
-  identifier              = format("instance-%s", each.key)
+  identifier_prefix       = format("instance-%s-", each.key)
   cluster_identifier      = element(aws_rds_cluster.db.*.id, 0)
-  engine                  = lookup(var.aurora_cluster, "engine", "aurora-mysql")
-  engine_version          = lookup(var.aurora_cluster, "version", "5.7.12")
-  instance_class          = lookup(each.value, "node_type", "db.t3.medium")
-  db_parameter_group_name = aws_db_parameter_group.db[0].name
+  engine                  = lookup(var.aurora_cluster, "engine", local.default_cluster["engine"])
+  engine_version          = lookup(var.aurora_cluster, "version", local.default_cluster["version"])
+  instance_class          = lookup(each.value, "instance_type", local.default_instances[0]["instance_type"])
+  db_parameter_group_name = aws_db_parameter_group.db[each.key].name
   db_subnet_group_name    = aws_db_subnet_group.db[0].name
-  apply_immediately       = tobool(lookup(var.aurora_cluster, "apply_immedidately", "false"))
+  apply_immediately       = tobool(lookup(var.aurora_cluster, "apply_immediately", local.default_cluster["apply_immediately"]))
   tags                    = merge(local.default-tags, var.tags)
 }

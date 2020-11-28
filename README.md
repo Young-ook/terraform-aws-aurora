@@ -4,7 +4,8 @@
 * This module will create an Amazon Aurora Cluster on AWS.
 
 ## Examples
-- [MySQL Example](https://github.com/Young-ook/terraform-aws-aurora/blob/master/examples/mysql)
+- [MySQL Example](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/mysql)
+- [PostgreSQL Example](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/postgresql)
 
 ## Quickstart
 ### Setup
