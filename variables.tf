@@ -5,7 +5,7 @@ variable "vpc" {
 }
 
 variable "cidrs" {
-  description = "The list of vpc CIDR blocks"
+  description = "The list of CIDR blocks to allow ingress traffic for db access"
   type        = list(string)
 }
 
@@ -20,16 +20,14 @@ variable "subnets" {
 
 variable "aurora_cluster" {
   description = "RDS Aurora for mysql cluster definition"
-  type        = map
   default = {
-    engine            = "aurora-mysql"
-    version           = "5.7.12"
-    port              = "3306"
-    user              = "yourid"
-    database          = "yourdb"
-    snapshot_id       = ""
-    backup_retention  = "5"
-    apply_immediately = "false"
+    engine             = "aurora-mysql"
+    version            = "5.7.12"
+    port               = "3306"
+    user               = "yourid"
+    database           = "yourdb"
+    apply_immediately  = "false"
+    cluster_parameters = {}
   }
 }
 
@@ -37,7 +35,8 @@ variable "aurora_instances" {
   description = "RDS Aurora for mysql instances definition"
   default = [
     {
-      node_type = "db.t3.medium"
+      node_type           = "db.t3.medium"
+      instance_parameters = {}
     }
   ]
 }
