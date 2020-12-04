@@ -22,7 +22,7 @@ variable "cidrs" {
   type        = list(string)
 }
 
-### rdb cluster (aurora-mysql)
+### rdb cluster
 
 #  [CAUTION] Changing the snapshot ID. will force a new resource.
 
