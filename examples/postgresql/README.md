@@ -1,6 +1,6 @@
 # Amazon Aurora with PostgreSQL compatibility
 ## Setup
-[This](https://github.com/Young-ook/terraform-aws-aurora/blob/master/examples/postgresql/main.tf) is the example of terraform configuration file to create an Amazon Aurora for PostgreSQL cluster on your AWS account. Check out and apply it using terraform command.
+[This](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/postgresql/main.tf) is the example of terraform configuration file to create an Amazon Aurora for PostgreSQL cluster on your AWS account. Check out and apply it using terraform command.
 
 Run terraform:
 ```
