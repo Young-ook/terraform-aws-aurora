@@ -6,6 +6,7 @@
 ## Examples
 - [MySQL Example](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/mysql)
 - [PostgreSQL Example](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/postgresql)
+- [Amazon Aurora with AWS Graviton](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/arm64)
 
 ## Quickstart
 ### Setup
