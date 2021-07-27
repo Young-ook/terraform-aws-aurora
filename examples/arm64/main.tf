@@ -3,14 +3,13 @@ terraform {
 }
 
 provider "aws" {
-  region              = var.aws_region
-  allowed_account_ids = [var.aws_account]
+  region = var.aws_region
 }
 
 # vpc
 module "vpc" {
   source             = "terraform-aws-modules/vpc/aws"
-  version            = "2.63.0"
+  version            = "2.78.0"
   name               = var.name
   azs                = var.azs
   cidr               = var.cidrs[0]
@@ -30,4 +29,23 @@ module "mysql" {
   cidrs            = var.cidrs
   aurora_cluster   = var.aurora_cluster
   aurora_instances = var.aurora_instances
+}
+
+# sysbench
+module "ec2" {
+  source  = "Young-ook/ssm/aws"
+  name    = var.name
+  tags    = var.tags
+  subnets = module.vpc.private_subnets
+  node_groups = [
+    {
+      name          = "sysbench"
+      min_size      = 1
+      max_size      = 1
+      desired_size  = 1
+      instance_type = "m5.large"
+      tags          = { purpose = "sysbench" }
+      user_data     = file("${path.cwd}/sysbench-setup.sh")
+    },
+  ]
 }
