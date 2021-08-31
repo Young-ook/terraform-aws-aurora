@@ -5,6 +5,9 @@
 - [MySQL Example](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/mysql)
 - [PostgreSQL Example](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/postgresql)
 - [Amazon Aurora with AWS Graviton](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/arm64)
+- [AWS Fault Injection Simulator with AWS Systems Manager](https://github.com/Young-ook/terraform-aws-ssm/blob/main/examples/fis)
+- [AWS Fault Injection Simulator with Amazon EKS](https://github.com/Young-ook/terraform-aws-eks/blob/main/examples/fis)
+- [AWS Fault Injection Simulator with Amazon Aurora](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/fis)
 
 ## Getting started
 ### AWS CLI
