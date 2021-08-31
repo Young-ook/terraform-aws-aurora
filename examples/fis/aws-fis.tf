@@ -47,7 +47,9 @@ resource "local_file" "reboot-db-instances" {
 }
 
 resource "local_file" "create-fis-templates" {
-  content         = templatefile("${path.module}/templates/create-fis-templates.tpl", {})
+  content = templatefile("${path.module}/templates/create-fis-templates.tpl", {
+    region = var.aws_region
+  })
   filename        = "${path.cwd}/.fis/create-fis-templates.sh"
   file_permission = "0700"
 }
@@ -65,7 +67,9 @@ resource "null_resource" "create-fis-templates" {
 }
 
 resource "local_file" "delete-fis-templates" {
-  content         = templatefile("${path.module}/templates/delete-fis-templates.tpl", {})
+  content = templatefile("${path.module}/templates/delete-fis-templates.tpl", {
+    region = var.aws_region
+  })
   filename        = "${path.cwd}/.fis/delete-fis-templates.sh"
   file_permission = "0700"
 }
