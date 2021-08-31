@@ -32,7 +32,7 @@ resource "local_file" "failover-db-cluster" {
     region  = var.aws_region
     cluster = module.mysql.arn.0
   })
-  filename        = "${path.cwd}/.fis/failover-db-cluster.json"
+  filename        = "${path.module}/.fis/failover-db-cluster.json"
   file_permission = "0600"
 }
 
@@ -42,7 +42,7 @@ resource "local_file" "reboot-db-instances" {
     role   = aws_iam_role.fis-run.arn
     region = var.aws_region
   })
-  filename        = "${path.cwd}/.fis/reboot-db-instances.json"
+  filename        = "${path.module}/.fis/reboot-db-instances.json"
   file_permission = "0600"
 }
 
@@ -50,7 +50,7 @@ resource "local_file" "create-fis-templates" {
   content = templatefile("${path.module}/templates/create-fis-templates.tpl", {
     region = var.aws_region
   })
-  filename        = "${path.cwd}/.fis/create-fis-templates.sh"
+  filename        = "${path.module}/.fis/create-fis-templates.sh"
   file_permission = "0700"
 }
 
@@ -70,7 +70,7 @@ resource "local_file" "delete-fis-templates" {
   content = templatefile("${path.module}/templates/delete-fis-templates.tpl", {
     region = var.aws_region
   })
-  filename        = "${path.cwd}/.fis/delete-fis-templates.sh"
+  filename        = "${path.module}/.fis/delete-fis-templates.sh"
   file_permission = "0700"
 }
 
