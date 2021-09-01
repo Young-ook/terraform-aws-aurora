@@ -17,3 +17,8 @@ output "endpoint" {
     [aws_rds_cluster.db.*.endpoint, aws_rds_cluster.db.*.reader_endpoint]
   ) : null)
 }
+
+output "instances" {
+  description = "The Aurora DB instances"
+  value       = aws_rds_cluster_instance.db
+}

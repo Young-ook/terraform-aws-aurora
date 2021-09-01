@@ -6,9 +6,9 @@
     "targets": {
         "rds-instances": {
             "resourceType": "aws:rds:db",
-            "resourceTags": {
-                "env": "prod"
-            },
+            "resourceArns": [
+                "${db}"
+            ],
             "filters": [
                 {
                     "path": "State.Name",
