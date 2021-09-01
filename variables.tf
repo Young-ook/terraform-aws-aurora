@@ -2,19 +2,22 @@
 variable "vpc" {
   description = "The VPC ID to deploy the cluster"
   type        = string
+  default     = null
 }
 
 variable "cidrs" {
   description = "The list of CIDR blocks to allow ingress traffic for db access"
   type        = list(string)
+  default     = ["10.0.0.0/16"]
 }
 
 variable "subnets" {
   description = "The list of subnet IDs to deploy the cluster"
   type        = list(string)
+  default     = null
 }
 
-### rdb cluster (aurora-mysql)
+### rdb cluster (aurora)
 
 #  [CAUTION] Changing the snapshot ID. will force a new resource.
 

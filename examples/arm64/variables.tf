@@ -7,15 +7,10 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
-variable "azs" {
-  description = "A list of availability zones for the vpc to deploy resources"
-  type        = list(string)
-  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
-}
-
 variable "cidrs" {
   description = "The list of CIDR blocks to allow ingress traffic for db access"
   type        = list(string)
+  default     = ["10.0.0.0/16"]
 }
 
 ### rdb cluster

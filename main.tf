@@ -16,30 +16,11 @@ resource "random_password" "password" {
   override_special = "^"
 }
 
-# security/firewall
-resource "aws_security_group" "db" {
-  count       = local.enabled ? 1 : 0
-  name        = format("%s-db", var.name)
-  description = format("security group for %s-db", var.name)
-  vpc_id      = var.vpc
-  tags        = merge(local.default-tags, var.tags)
-}
-
-resource "aws_security_group_rule" "db-ingress-rules" {
-  count             = local.enabled ? 1 : 0
-  type              = "ingress"
-  from_port         = lookup(var.aurora_cluster, "port", local.default_cluster["port"])
-  to_port           = lookup(var.aurora_cluster, "port", local.default_cluster["port"])
-  protocol          = "tcp"
-  cidr_blocks       = var.cidrs
-  security_group_id = aws_security_group.db[0].id
-}
-
 # subnet group
 resource "aws_db_subnet_group" "db" {
   count      = local.enabled ? 1 : 0
   name       = format("%s-db", var.name)
-  subnet_ids = var.subnets
+  subnet_ids = local.subnet_ids
   tags       = merge(local.default-tags, var.tags)
 }
 
