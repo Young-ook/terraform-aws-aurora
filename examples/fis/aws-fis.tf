@@ -41,6 +41,7 @@ resource "local_file" "reboot-db-instances" {
     alarm  = aws_cloudwatch_metric_alarm.rds-cpu.arn
     role   = aws_iam_role.fis-run.arn
     region = var.aws_region
+    db     = module.mysql.instances.0.arn
   })
   filename        = "${path.module}/.fis/reboot-db-instances.json"
   file_permission = "0600"
