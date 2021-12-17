@@ -63,21 +63,22 @@ resource "aws_db_parameter_group" "db" {
 
 # rds cluster
 resource "aws_rds_cluster" "db" {
-  cluster_identifier_prefix       = format("%s-", var.name)
-  engine                          = lookup(var.aurora_cluster, "engine", local.default_cluster.engine)
-  engine_mode                     = lookup(var.aurora_cluster, "engine_mode", local.default_cluster.engine_mode)
-  engine_version                  = lookup(var.aurora_cluster, "version", local.default_cluster.version)
-  port                            = lookup(var.aurora_cluster, "port", local.default_cluster.port)
-  skip_final_snapshot             = lookup(var.aurora_cluster, "skip_final_snapshot", local.default_cluster.skip_final_snapshot)
-  database_name                   = lookup(var.aurora_cluster, "database", local.default_cluster.database)
-  master_username                 = lookup(var.aurora_cluster, "user", local.default_cluster.user)
-  master_password                 = random_password.password.result
-  snapshot_identifier             = lookup(var.aurora_cluster, "snapshot_id", local.default_cluster.snapshot_id)
-  backup_retention_period         = lookup(var.aurora_cluster, "backup_retention", local.default_cluster.backup_retention)
-  db_subnet_group_name            = aws_db_subnet_group.db.name
-  db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.db.name
-  vpc_security_group_ids          = coalescelist(aws_security_group.db.*.id, [])
-  tags                            = merge(local.default-tags, var.tags)
+  cluster_identifier_prefix           = format("%s-", var.name)
+  engine                              = lookup(var.aurora_cluster, "engine", local.default_cluster.engine)
+  engine_mode                         = lookup(var.aurora_cluster, "engine_mode", local.default_cluster.engine_mode)
+  engine_version                      = lookup(var.aurora_cluster, "version", local.default_cluster.version)
+  port                                = lookup(var.aurora_cluster, "port", local.default_cluster.port)
+  skip_final_snapshot                 = lookup(var.aurora_cluster, "skip_final_snapshot", local.default_cluster.skip_final_snapshot)
+  database_name                       = lookup(var.aurora_cluster, "database", local.default_cluster.database)
+  master_username                     = lookup(var.aurora_cluster, "user", local.default_cluster.user)
+  master_password                     = random_password.password.result
+  iam_database_authentication_enabled = lookup(var.aurora_cluster, "iam_auth_enabled", local.default_cluster.iam_auth_enabled)
+  snapshot_identifier                 = lookup(var.aurora_cluster, "snapshot_id", local.default_cluster.snapshot_id)
+  backup_retention_period             = lookup(var.aurora_cluster, "backup_retention", local.default_cluster.backup_retention)
+  db_subnet_group_name                = aws_db_subnet_group.db.name
+  db_cluster_parameter_group_name     = aws_rds_cluster_parameter_group.db.name
+  vpc_security_group_ids              = coalescelist(aws_security_group.db.*.id, [])
+  tags                                = merge(local.default-tags, var.tags)
 
   lifecycle {
     ignore_changes        = [snapshot_identifier, master_password]

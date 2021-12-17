@@ -7,6 +7,7 @@ locals {
     port                = "3306"
     database            = "yourdb"
     user                = "yourid"
+    iam_auth_enabled    = false
     skip_final_snapshot = true
     snapshot_id         = null
     backup_retention    = 7
@@ -28,6 +29,7 @@ locals {
     port                = "5432"
     database            = "yourdb"
     user                = "yourid"
+    iam_auth_enabled    = false
     skip_final_snapshot = true
     snapshot_id         = null
     backup_retention    = 7
