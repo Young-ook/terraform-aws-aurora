@@ -17,14 +17,14 @@ resource "random_password" "password" {
 
 # subnet group
 resource "aws_db_subnet_group" "db" {
-  name       = format("%s-db", var.name)
+  name       = format("%s-db", local.name)
   subnet_ids = local.subnet_ids
   tags       = merge(local.default-tags, var.tags)
 }
 
 # parameter groups
 resource "aws_rds_cluster_parameter_group" "db" {
-  name = format("%s-db-cluster-params", var.name)
+  name = format("%s-db-cluster-params", local.name)
   tags = merge(local.default-tags, var.tags)
 
   family = lookup(var.aurora_cluster, "family", local.default_cluster.family)
@@ -43,7 +43,7 @@ resource "aws_rds_cluster_parameter_group" "db" {
 
 resource "aws_db_parameter_group" "db" {
   for_each = { for key, val in var.aurora_instances : key => val }
-  name     = format("%s-db-instance-%s-params", var.name, each.key)
+  name     = format("%s-db-instance-%s-params", local.name, each.key)
   tags     = merge(local.default-tags, var.tags)
 
 
@@ -63,7 +63,7 @@ resource "aws_db_parameter_group" "db" {
 
 # rds cluster
 resource "aws_rds_cluster" "db" {
-  cluster_identifier_prefix           = format("%s-", var.name)
+  cluster_identifier_prefix           = format("%s-", local.name)
   engine                              = lookup(var.aurora_cluster, "engine", local.default_cluster.engine)
   engine_mode                         = lookup(var.aurora_cluster, "engine_mode", local.default_cluster.engine_mode)
   engine_version                      = lookup(var.aurora_cluster, "version", local.default_cluster.version)
