@@ -1,11 +1,11 @@
 output "name" {
   description = "The Aurora cluster name"
-  value       = module.mysql.name
+  value       = module.mysql.cluster.id
 }
 
 output "arn" {
   description = "The Aurora cluster arn"
-  value       = module.mysql.arn
+  value       = module.mysql.cluster.arn
 }
 
 output "endpoint" {
