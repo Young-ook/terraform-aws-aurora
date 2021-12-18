@@ -2,7 +2,7 @@
 
 # parameters
 locals {
-  security_groups     = (var.security_groups == null || var.security_groups == []) ? null : var.security_groups
+  security_groups     = var.security_groups == [] ? null : var.security_groups
   debug_logging       = lookup(var.proxy_config, "debug_logging", local.default_proxy_config.debug_logging)
   engine_family       = lookup(var.proxy_config, "engine_family", local.default_proxy_config.engine_family)
   idle_client_timeout = lookup(var.proxy_config, "idle_client_timeout", local.default_proxy_config.idle_client_timeout)
@@ -19,8 +19,7 @@ locals {
 resource "aws_secretsmanager_secret" "password" {
   name = join("-", [local.user_name, local.name])
   tags = var.tags
-  #  policy     = var.policy
-  #  kms_key_id = var.kms_key_id
+  #policy = var.policy
 }
 
 resource "aws_secretsmanager_secret_version" "password" {
@@ -42,8 +41,32 @@ resource "aws_iam_role" "proxy" {
       Action = "sts:AssumeRole"
       Effect = "Allow"
       Principal = {
-        Service = [format("fis.%s", module.aws.partition.dns_suffix)]
+        Service = [format("rds.%s", module.aws.partition.dns_suffix)]
       }
+    }]
+    Version = "2012-10-17"
+  })
+}
+
+resource "aws_iam_role_policy" "get-secret" {
+  role = aws_iam_role.proxy.id
+  policy = jsonencode({
+    Statement = [{
+      Action = [
+        "secretsmanager:GetResourcePolicy",
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:ListSecretVersionIds",
+      ]
+      Effect   = "Allow"
+      Resource = [aws_secretsmanager_secret.password.arn]
+      }, {
+      Action = [
+        "secretsmanager:GetRandomPassword",
+        "secretsmanager:ListSecrets",
+      ]
+      Effect   = "Allow"
+      Resource = ["*"]
     }]
     Version = "2012-10-17"
   })
