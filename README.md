@@ -1,7 +1,7 @@
 # Amazon Aurora
 [Amazon Aurora](https://aws.amazon.com/rds/aurora/) is a MySQL and PostgreSQL-compatible relational database built for the cloud, that combines the performance and availability of traditional enterprise databases with the simplicity and cost-effectiveness of open source databases. This module will create an Amazon Aurora Cluster on AWS.
 
-![rds-vs-aurora-architecture-comparison](../../images/rds-vs-aurora-architecture-comparison.png)
+![rds-vs-aurora-architecture-comparison](images/rds-vs-aurora-architecture-comparison.png)
 
 ## Examples
 - [MySQL Example](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/mysql)
