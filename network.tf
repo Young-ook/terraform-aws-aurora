@@ -10,17 +10,12 @@ data "aws_subnet_ids" "default" {
   vpc_id = data.aws_vpc.default.id
 }
 
-locals {
-  vpc_id     = var.vpc == null ? data.aws_vpc.default.id : var.vpc
-  subnet_ids = var.subnets == null ? data.aws_subnet_ids.default.ids : var.subnets
-}
-
 # security/firewall
 resource "aws_security_group" "db" {
   count       = local.enabled ? 1 : 0
   name        = format("%s", var.name)
   description = format("security group for %s", var.name)
-  vpc_id      = local.vpc_id
+  vpc_id      = var.vpc
   tags        = merge(local.default-tags, var.tags)
 
   ingress {

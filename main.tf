@@ -18,7 +18,7 @@ resource "random_password" "password" {
 # subnet group
 resource "aws_db_subnet_group" "db" {
   name       = format("%s-db", local.name)
-  subnet_ids = local.subnet_ids
+  subnet_ids = var.subnets
   tags       = merge(local.default-tags, var.tags)
 }
 

@@ -2,7 +2,6 @@
 variable "vpc" {
   description = "The VPC ID to deploy the cluster"
   type        = string
-  default     = null
 }
 
 variable "cidrs" {
@@ -14,7 +13,6 @@ variable "cidrs" {
 variable "subnets" {
   description = "The list of subnet IDs to deploy the cluster"
   type        = list(string)
-  default     = null
 }
 
 ### rdb cluster (aurora)
