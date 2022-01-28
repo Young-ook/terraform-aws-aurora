@@ -1,6 +1,8 @@
 # Amazon Aurora
 [Amazon Aurora](https://aws.amazon.com/rds/aurora/) is a MySQL and PostgreSQL-compatible relational database built for the cloud, that combines the performance and availability of traditional enterprise databases with the simplicity and cost-effectiveness of open source databases. This module will create an Amazon Aurora Cluster on AWS.
 
+![rds-vs-aurora-architecture-comparison](../../images/rds-vs-aurora-architecture-comparison.png)
+
 ## Examples
 - [MySQL Example](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/mysql)
 - [PostgreSQL Example](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/postgresql)
@@ -8,6 +10,7 @@
 - [AWS Fault Injection Simulator with AWS Systems Manager](https://github.com/Young-ook/terraform-aws-ssm/blob/main/examples/fis)
 - [AWS Fault Injection Simulator with Amazon EKS](https://github.com/Young-ook/terraform-aws-eks/blob/main/examples/fis)
 - [AWS Fault Injection Simulator with Amazon Aurora](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/fis)
+- [Is Amazon RDS for PostgreSQL or Amazon Aurora PostgreSQL a better choice for me?](https://aws.amazon.com/blogs/database/is-amazon-rds-for-postgresql-or-amazon-aurora-postgresql-a-better-choice-for-me/)
 
 ## Getting started
 ### AWS CLI
