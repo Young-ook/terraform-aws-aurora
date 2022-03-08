@@ -15,21 +15,17 @@ locals {
   user_password       = lookup(var.auth_config, "user_password") # required
 }
 
-# security/secret
-resource "aws_secretsmanager_secret" "password" {
-  name = join("-", [local.user_name, local.name])
-  tags = var.tags
-  #policy = var.policy
-}
-
-resource "aws_secretsmanager_secret_version" "password" {
-  secret_id     = aws_secretsmanager_secret.password.id
-  secret_string = local.user_password
-}
-
 # aws partition and region (global, gov, china)
 module "aws" {
   source = "Young-ook/spinnaker/aws//modules/aws-partitions"
+}
+
+# security/secret
+module "vault" {
+  source  = "Young-ook/passport/aws//modules/aws-secrets"
+  version = "0.0.4"
+  name    = join("-", [local.user_name, local.name])
+  secret  = local.user_password
 }
 
 # security/policy
@@ -48,28 +44,9 @@ resource "aws_iam_role" "proxy" {
   })
 }
 
-resource "aws_iam_role_policy" "get-secret" {
-  role = aws_iam_role.proxy.id
-  policy = jsonencode({
-    Statement = [{
-      Action = [
-        "secretsmanager:GetResourcePolicy",
-        "secretsmanager:GetSecretValue",
-        "secretsmanager:DescribeSecret",
-        "secretsmanager:ListSecretVersionIds",
-      ]
-      Effect   = "Allow"
-      Resource = [aws_secretsmanager_secret.password.arn]
-      }, {
-      Action = [
-        "secretsmanager:GetRandomPassword",
-        "secretsmanager:ListSecrets",
-      ]
-      Effect   = "Allow"
-      Resource = ["*"]
-    }]
-    Version = "2012-10-17"
-  })
+resource "aws_iam_role_policy_attachment" "get-secret" {
+  role       = aws_iam_role.proxy.id
+  policy_arn = module.vault.policy_arns.read
 }
 
 # proxy
@@ -87,7 +64,7 @@ resource "aws_db_proxy" "proxy" {
   auth {
     description = lookup(local.auth, "description", null)
     auth_scheme = lookup(local.auth, "auth_scheme", null)
-    secret_arn  = lookup(local.auth, "secret_arn", aws_secretsmanager_secret.password.arn)
+    secret_arn  = lookup(local.auth, "secret_arn", module.vault.secret.arn)
     iam_auth    = lookup(local.auth, "iam_auth", null)
   }
 }

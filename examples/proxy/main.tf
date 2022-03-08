@@ -36,7 +36,6 @@ resource "time_sleep" "wait" {
 module "proxy" {
   depends_on = [time_sleep.wait]
   source     = "../../modules/proxy"
-  name       = var.name
   tags       = var.tags
   subnets    = values(module.vpc.subnets["private"])
   proxy_config = {
