@@ -4,13 +4,13 @@
 ![rds-vs-aurora-architecture-comparison](images/rds-vs-aurora-architecture-comparison.png)
 
 ## Examples
-- [MySQL Example](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/mysql)
-- [PostgreSQL Example](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/postgresql)
+- [Amazon Aurora with MySQL compatibility](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/mysql)
+- [Amazon Aurora with PostgreSQL compatibility](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/postgresql)
 - [Amazon Aurora with AWS Graviton](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/arm64)
 - [AWS Fault Injection Simulator with AWS Systems Manager](https://github.com/Young-ook/terraform-aws-ssm/blob/main/examples/fis)
 - [AWS Fault Injection Simulator with Amazon EKS](https://github.com/Young-ook/terraform-aws-eks/blob/main/examples/fis)
 - [AWS Fault Injection Simulator with Amazon Aurora](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/fis)
-- [RDS Proxy Example](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/proxy)
+- [RDS Proxy](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/proxy)
 - [Is Amazon RDS for PostgreSQL or Amazon Aurora PostgreSQL a better choice for me?](https://aws.amazon.com/blogs/database/is-amazon-rds-for-postgresql-or-amazon-aurora-postgresql-a-better-choice-for-me/)
 
 ## Getting started
