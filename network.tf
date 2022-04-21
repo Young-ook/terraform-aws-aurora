@@ -1,15 +1,6 @@
 ## aws partition and region (global, gov, china)
 data "aws_partition" "current" {}
 
-## default vpc
-data "aws_vpc" "default" {
-  default = true
-}
-
-data "aws_subnet_ids" "default" {
-  vpc_id = data.aws_vpc.default.id
-}
-
 # security/firewall
 resource "aws_security_group" "db" {
   count       = local.enabled ? 1 : 0
