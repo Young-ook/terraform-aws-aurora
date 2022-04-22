@@ -22,7 +22,7 @@ output "user" {
   description = "The master user credential of the Aurora cluster"
   sensitive   = true
   value = zipmap(
-    ["name", "password"],
-    [aws_rds_cluster.db.master_username, random_password.password.result]
+    ["database", "name", "password"],
+    [aws_rds_cluster.db.database_name, aws_rds_cluster.db.master_username, random_password.password.result]
   )
 }
