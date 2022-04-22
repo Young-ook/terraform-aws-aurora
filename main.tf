@@ -63,7 +63,7 @@ resource "aws_db_parameter_group" "db" {
 
 # rds cluster
 resource "aws_rds_cluster" "db" {
-  cluster_identifier_prefix           = format("%s-", local.name)
+  cluster_identifier                  = local.name
   engine                              = lookup(var.aurora_cluster, "engine", local.default_cluster.engine)
   engine_mode                         = lookup(var.aurora_cluster, "engine_mode", local.default_cluster.engine_mode)
   engine_version                      = lookup(var.aurora_cluster, "version", local.default_cluster.version)
@@ -88,8 +88,8 @@ resource "aws_rds_cluster" "db" {
 
 # rds instances
 resource "aws_rds_cluster_instance" "db" {
-  for_each                = { for key, val in var.aurora_instances : key => val }
-  identifier_prefix       = format("instance-%s-", each.key)
+  for_each                = { for k, v in var.aurora_instances : k => v }
+  identifier              = join("-", [local.name, random_string.iid[each.key].result])
   cluster_identifier      = aws_rds_cluster.db.id
   engine                  = lookup(var.aurora_cluster, "engine", local.default_cluster.engine)
   engine_version          = lookup(var.aurora_cluster, "version", local.default_cluster.version)
