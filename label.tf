@@ -1,3 +1,12 @@
+resource "random_string" "iid" {
+  for_each = { for k, v in var.aurora_instances : k => v }
+  length   = 5
+  upper    = false
+  lower    = true
+  number   = false
+  special  = false
+}
+
 resource "random_string" "uid" {
   length  = 12
   upper   = false
