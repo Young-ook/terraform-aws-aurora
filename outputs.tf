@@ -23,6 +23,6 @@ output "user" {
   sensitive   = true
   value = zipmap(
     ["database", "name", "password"],
-    [aws_rds_cluster.db.database_name, aws_rds_cluster.db.master_username, random_password.password.result]
+    [aws_rds_cluster.db.database_name, aws_rds_cluster.db.master_username, local.password]
   )
 }

@@ -6,6 +6,7 @@ locals {
   compatibility     = (local.enabled ? lookup(var.aurora_cluster, "engine", "aurora-mysql") : "aurora-mysql")
   default_cluster   = (local.compatibility == "aurora-mysql" ? local.default_mysql_cluster : local.default_postgresql_cluster)
   default_instances = (local.compatibility == "aurora-mysql" ? local.default_mysql_instances : local.default_postgresql_instances)
+  password          = lookup(var.aurora_cluster, "password", random_password.password.result)
 }
 
 # security/password
@@ -71,7 +72,7 @@ resource "aws_rds_cluster" "db" {
   skip_final_snapshot                 = lookup(var.aurora_cluster, "skip_final_snapshot", local.default_cluster.skip_final_snapshot)
   database_name                       = lookup(var.aurora_cluster, "database", local.default_cluster.database)
   master_username                     = lookup(var.aurora_cluster, "user", local.default_cluster.user)
-  master_password                     = random_password.password.result
+  master_password                     = local.password
   iam_database_authentication_enabled = lookup(var.aurora_cluster, "iam_auth_enabled", local.default_cluster.iam_auth_enabled)
   snapshot_identifier                 = lookup(var.aurora_cluster, "snapshot_id", local.default_cluster.snapshot_id)
   backup_retention_period             = lookup(var.aurora_cluster, "backup_retention", local.default_cluster.backup_retention)
