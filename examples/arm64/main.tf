@@ -1,5 +1,5 @@
 terraform {
-  required_version = "0.13.5"
+  required_version = "~> 1.0"
 }
 
 provider "aws" {
@@ -18,9 +18,10 @@ module "mysql" {
 
 # sysbench
 module "ec2" {
-  source = "Young-ook/ssm/aws"
-  name   = var.name
-  tags   = var.tags
+  source  = "Young-ook/ssm/aws"
+  version = "0.0.6"
+  name    = var.name
+  tags    = var.tags
   node_groups = [
     {
       name          = "sysbench"
