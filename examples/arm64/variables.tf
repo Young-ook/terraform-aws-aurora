@@ -4,13 +4,16 @@
 variable "aws_region" {
   description = "The aws region to deploy"
   type        = string
-  default     = "us-east-1"
 }
 
-variable "cidrs" {
-  description = "The list of CIDR blocks to allow ingress traffic for db access"
+variable "azs" {
+  description = "A list of availability zones"
   type        = list(string)
-  default     = ["10.0.0.0/16"]
+}
+
+variable "cidr" {
+  description = "The vpc CIDR (e.g. 10.0.0.0/16)"
+  type        = string
 }
 
 ### rdb cluster
@@ -31,12 +34,10 @@ variable "aurora_instances" {
 variable "name" {
   description = "The logical name of the module instance"
   type        = string
-  default     = "aurora"
 }
 
 ### tags
 variable "tags" {
   description = "The key-value maps for tagging"
   type        = map(string)
-  default     = {}
 }

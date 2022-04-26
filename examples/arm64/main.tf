@@ -6,12 +6,28 @@ provider "aws" {
   region = var.aws_region
 }
 
+# vpc
+module "vpc" {
+  source  = "Young-ook/vpc/aws"
+  version = "1.0.1"
+  name    = var.name
+  tags    = var.tags
+  vpc_config = {
+    cidr        = var.cidr
+    azs         = var.azs
+    single_ngw  = true
+    subnet_type = "private"
+  }
+}
+
 # aurora
 module "mysql" {
   source           = "Young-ook/aurora/aws"
   name             = var.name
   tags             = var.tags
-  cidrs            = var.cidrs
+  cidrs            = [var.cidr]
+  vpc              = module.vpc.vpc.id
+  subnets          = values(module.vpc.subnets["private"])
   aurora_cluster   = var.aurora_cluster
   aurora_instances = var.aurora_instances
 }
@@ -22,6 +38,7 @@ module "ec2" {
   version = "0.0.6"
   name    = var.name
   tags    = var.tags
+  subnets = values(module.vpc.subnets["private"])
   node_groups = [
     {
       name          = "sysbench"
