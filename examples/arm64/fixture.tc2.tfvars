@@ -2,16 +2,17 @@ aws_region = "ap-northeast-2"
 cidrs      = ["10.0.0.0/16"]
 name       = "aurora-arm64-mysql-tc2"
 tags = {
-  env  = "dev"
-  test = "tc2"
+  env     = "dev"
+  test    = "tc2"
+  version = "aurora.3.01.0"
 }
 aurora_cluster = {
   engine            = "aurora-mysql"
-  version           = "5.7.mysql_aurora.2.09.2"
-  port              = "3306"
+  version           = "8.0.mysql_aurora.3.01.0"
+  port              = "3309"
   user              = "yourid"
   database          = "yourdb"
-  backup_retention  = "5"
+  backup_retention  = "1"
   apply_immediately = "false"
   cluster_parameters = {
     character_set_server = "utf8"
@@ -21,8 +22,5 @@ aurora_cluster = {
 aurora_instances = [
   {
     instance_type = "db.r6g.xlarge"
-    instance_parameters = {
-      autocommit = 0
-    }
   }
 ]
