@@ -35,7 +35,7 @@ module "mysql" {
 # sysbench
 module "ec2" {
   source  = "Young-ook/ssm/aws"
-  version = "0.0.6"
+  version = "0.0.7"
   name    = var.name
   tags    = var.tags
   subnets = values(module.vpc.subnets["private"])
@@ -47,7 +47,6 @@ module "ec2" {
       desired_size  = 1
       instance_type = "m5.large"
       tags          = { purpose = "sysbench" }
-      user_data     = file("${path.cwd}/sysbench-setup.sh")
     },
   ]
 }
