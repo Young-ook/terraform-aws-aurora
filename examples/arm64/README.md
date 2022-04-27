@@ -25,6 +25,12 @@ terraform plan -var-file tc1.tfvars
 terraform apply -var-file tc1.tfvars
 ```
 
+## Install sysbench
+```
+curl -s https://packagecloud.io/install/repositories/akopytov/sysbench/script.rpm.sh | sudo bash
+sudo yum -y install mysql postgresql sysbench
+```
+
 ## Clean up
 Run terraform:
 ```
