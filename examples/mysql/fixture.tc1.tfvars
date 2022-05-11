@@ -5,7 +5,7 @@ name       = "aurora-mysql-tc1-multi-az"
 tags       = { test = "tc1" }
 aurora_cluster = {
   engine            = "aurora-mysql"
-  version           = "5.7.12"
+  version           = "5.7.mysql_aurora.2.07.1"
   port              = "3306"
   user              = "yourid"
   database          = "yourdb"

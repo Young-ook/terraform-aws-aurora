@@ -1,9 +1,9 @@
 locals {
   default_mysql_cluster = {
     engine              = "aurora-mysql"
-    engine_mode         = "provisioned"
+    mode                = "provisioned"
     family              = "aurora-mysql5.7"
-    version             = "5.7.12"
+    version             = "5.7.mysql_aurora.2.07.1"
     port                = "3306"
     database            = "yourdb"
     user                = "yourid"
@@ -13,6 +13,13 @@ locals {
     backup_retention    = 7
     apply_immediately   = false
     cluster_parameters  = {}
+    scaling = {
+      auto_pause               = true
+      max_capacity             = 128
+      min_capacity             = 1
+      seconds_until_auto_pause = 300
+      timeout_action           = "ForceApplyCapacityChange"
+    }
   }
   default_mysql_instances = [
     {
@@ -23,7 +30,7 @@ locals {
 
   default_postgresql_cluster = {
     engine              = "aurora-postgresql"
-    engine_mode         = "provisioned"
+    mode                = "provisioned"
     family              = "aurora-postgresql11"
     version             = "11.7"
     port                = "5432"
@@ -35,6 +42,13 @@ locals {
     backup_retention    = 7
     apply_immediately   = false
     cluster_parameters  = {}
+    scaling = {
+      auto_pause               = true
+      max_capacity             = 128
+      min_capacity             = 1
+      seconds_until_auto_pause = 300
+      timeout_action           = "ForceApplyCapacityChange"
+    }
   }
   default_postgresql_instances = [
     {
