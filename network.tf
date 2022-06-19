@@ -4,8 +4,8 @@ data "aws_partition" "current" {}
 # security/firewall
 resource "aws_security_group" "db" {
   count       = local.enabled ? 1 : 0
-  name        = format("%s", var.name)
-  description = format("security group for %s", var.name)
+  name        = format("%s", local.name)
+  description = format("security group for %s", local.name)
   vpc_id      = var.vpc
   tags        = merge(local.default-tags, var.tags)
 
