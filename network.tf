@@ -1,6 +1,3 @@
-## aws partition and region (global, gov, china)
-data "aws_partition" "current" {}
-
 # security/firewall
 resource "aws_security_group" "db" {
   count       = local.enabled ? 1 : 0
