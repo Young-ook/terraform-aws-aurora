@@ -23,6 +23,7 @@ variable "aurora_cluster" {
   description = "RDS Aurora for mysql cluster definition"
   default = {
     engine             = "aurora-mysql"
+    mode               = "provisioned" # Allowed values: global, multimaster, parallelquery, provisioned, serverless.
     version            = "5.7.12"
     port               = "3306"
     user               = "yourid"

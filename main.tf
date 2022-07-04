@@ -66,7 +66,7 @@ resource "aws_db_parameter_group" "db" {
 resource "aws_rds_cluster" "db" {
   cluster_identifier                  = local.name
   engine                              = lookup(var.aurora_cluster, "engine", local.default_cluster.engine)
-  engine_mode                         = lookup(var.aurora_cluster, "engine_mode", local.default_cluster.engine_mode)
+  engine_mode                         = lookup(var.aurora_cluster, "mode", local.default_cluster.mode)
   engine_version                      = lookup(var.aurora_cluster, "version", local.default_cluster.version)
   port                                = lookup(var.aurora_cluster, "port", local.default_cluster.port)
   skip_final_snapshot                 = lookup(var.aurora_cluster, "skip_final_snapshot", local.default_cluster.skip_final_snapshot)
@@ -80,6 +80,25 @@ resource "aws_rds_cluster" "db" {
   db_cluster_parameter_group_name     = aws_rds_cluster_parameter_group.db.name
   vpc_security_group_ids              = coalescelist(aws_security_group.db.*.id, [])
   tags                                = merge(local.default-tags, var.tags)
+
+  dynamic "scaling_configuration" {
+    for_each = { for k, v in var.aurora_cluster : k => v if k == "scaling" }
+    content {
+      max_capacity             = lookup(scaling_configuration.value, "max_capacity", 256)
+      min_capacity             = lookup(scaling_configuration.value, "min_capacity", 2)
+      auto_pause               = lookup(scaling_configuration.value, "auto_pause", true)
+      seconds_until_auto_pause = lookup(scaling_configuration.value, "seconds_until_auto_pause", 300)
+      timeout_action           = lookup(scaling_configuration.value, "timeout_action", "ForceApplyCapacityChange")
+    }
+  }
+
+  dynamic "serverlessv2_scaling_configuration" {
+    for_each = { for k, v in var.aurora_cluster : k => v if k == "scaling_v2" }
+    content {
+      max_capacity = lookup(serverlessv2_scaling_configuration.value, "max_capacity", 128.0)
+      min_capacity = lookup(serverlessv2_scaling_configuration.value, "min_capacity", 0.5)
+    }
+  }
 
   lifecycle {
     ignore_changes        = [snapshot_identifier, master_password]
