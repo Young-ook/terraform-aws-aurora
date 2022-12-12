@@ -3,7 +3,7 @@ resource "random_string" "iid" {
   length   = 5
   upper    = false
   lower    = true
-  number   = false
+  numeric  = false
   special  = false
 }
 
