@@ -1,8 +1,13 @@
 # output variables
 
 output "cluster" {
-  description = "The Aurora cluster name"
+  description = "Aurora cluster"
   value       = aws_rds_cluster.db
+}
+
+output "instances" {
+  description = "The Aurora DB instances"
+  value       = aws_rds_cluster_instance.db
 }
 
 output "endpoint" {
@@ -11,11 +16,6 @@ output "endpoint" {
     ["writer", "reader"],
     [aws_rds_cluster.db.endpoint, aws_rds_cluster.db.reader_endpoint]
   )
-}
-
-output "instances" {
-  description = "The Aurora DB instances"
-  value       = aws_rds_cluster_instance.db
 }
 
 output "user" {
