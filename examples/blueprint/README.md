@@ -1,6 +1,6 @@
 [[English](README.md)] [[한국어](README.ko.md)]
 
-# RDS Bluprint (Amazon Aurora)
+# RDS Blueprint (Amazon Aurora)
 This is RDS Blueprint example helps you compose complete RDS clusters that are fully bootstrapped with utilities that is needed to deploy and operate workloads. With this RDS Blueprint example, you describe the configuration for the desired state of your relational database for your application, as an Infrastructure as Code (IaC) template/blueprint. Once a blueprint is configured, you can use it to stamp out consistent environments across multiple AWS accounts and Regions using your automation workflow tool, such as Jenkins, CodePipeline. Also, you can use RDS Blueprint to easily bootstrap an RDS cluster with additional utilities for high availablity. RDS Blueprints also helps you implement relevant security controls needed to operate workloads from multiple teams in the same cluster.
 
 ## Setup
