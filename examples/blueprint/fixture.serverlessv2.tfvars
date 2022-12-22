@@ -1,7 +1,7 @@
 aurora_cluster = {
   engine            = "aurora-mysql"
   family            = "aurora-mysql8.0"
-  version           = "8.0.mysql_aurora.3.02.0"
+  version           = "8.0.mysql_aurora.3.02.1"
   mode              = "provisioned"
   user              = "yourid"
   database          = "yourdb"
