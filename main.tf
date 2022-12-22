@@ -108,6 +108,7 @@ resource "aws_rds_cluster" "db" {
 
 # rds instances
 resource "aws_rds_cluster_instance" "db" {
+  depends_on              = [aws_rds_cluster.db]
   for_each                = { for k, v in var.aurora_instances : k => v }
   identifier              = join("-", [local.name, random_string.iid[each.key].result])
   cluster_identifier      = aws_rds_cluster.db.id
