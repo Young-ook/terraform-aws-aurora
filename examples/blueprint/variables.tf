@@ -4,24 +4,24 @@
 variable "aws_region" {
   description = "The aws region to deploy"
   type        = string
-  default     = "us-east-1"
+  default     = "ap-northeast-2"
+}
+
+variable "use_default_vpc" {
+  description = "A feature flag for whether to use default vpc"
+  type        = bool
+  default     = true
 }
 
 variable "azs" {
   description = "A list of availability zones for the vpc to deploy resources"
   type        = list(string)
-  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
-}
-
-variable "cidrs" {
-  description = "The list of CIDR blocks to allow ingress traffic for db access"
-  type        = list(string)
+  default     = ["ap-northeast-2a", "ap-northeast-2c", "ap-northeast-2d"]
 }
 
 ### rdb cluster
-
 #  [CAUTION] Changing the snapshot ID. will force a new resource.
-
+#
 variable "aurora_cluster" {
   description = "RDS Aurora for mysql cluster definition"
   default     = {}
@@ -36,7 +36,7 @@ variable "aurora_instances" {
 variable "name" {
   description = "The logical name of the module instance"
   type        = string
-  default     = "aurora"
+  default     = null
 }
 
 ### tags

@@ -4,14 +4,7 @@
 ![rds-vs-aurora-architecture-comparison](images/rds-vs-aurora-architecture-comparison.png)
 
 ## Examples
-- [Amazon Aurora with MySQL compatibility](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/mysql)
-- [Amazon Aurora with PostgreSQL compatibility](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/postgresql)
-- [Amazon Aurora with AWS Graviton](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/arm64)
-- [AWS Fault Injection Simulator with AWS Systems Manager](https://github.com/Young-ook/terraform-aws-fis/blob/main/examples/ec2)
-- [AWS Fault Injection Simulator with Amazon EKS](https://github.com/Young-ook/terraform-aws-fis/blob/main/examples/eks)
-- [AWS Fault Injection Simulator with Amazon Aurora](https://github.com/Young-ook/terraform-aws-fis/blob/main/examples/rds)
-- [AWS Fault Injection Simulator with Amazon ElastiCache for Redis](https://github.com/Young-ook/terraform-aws-fis/blob/main/examples/redis)
-- [RDS Proxy](https://github.com/Young-ook/terraform-aws-aurora/blob/main/examples/proxy)
+- [RDS Blueprint](https://github.com/Young-ook/terraform-aws-aurora/tree/main/examples/blueprint)
 - [Is Amazon RDS for PostgreSQL or Amazon Aurora PostgreSQL a better choice for me?](https://aws.amazon.com/blogs/database/is-amazon-rds-for-postgresql-or-amazon-aurora-postgresql-a-better-choice-for-me/)
 
 ## Getting started
@@ -20,37 +13,47 @@ Follow the official guide to install and configure profiles.
 - [AWS CLI Installation](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 - [AWS CLI Configuration](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
 
+After the installation is complete, you can check the aws cli version:
+```
+aws --version
+aws-cli/2.5.8 Python/3.9.11 Darwin/21.4.0 exe/x86_64 prompt/off
+```
+
 ### Terraform
-Infrastructure Engineering team is using terraform to build and manage infrastucure for DevOps. And we have a plan to migrate cloudformation termplate to terraform.
+Terraform is an open-source infrastructure as code software tool that enables you to safely and predictably create, change, and improve infrastructure.
 
-To install Terraform, find the appropriate package (https://www.terraform.io/downloads.html) for your system and download it. Terraform is packaged as a zip archive and distributed as a single binary. Install Terraform by unzipping it and moving it to a directory included in your system's `PATH`. The [tfenv](https://github.com/tfutils/tfenv) is very useful solution.
+#### Install
+This is the official guide for terraform binary installation. Please visit this [Install Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli) website and follow the instructions.
 
-And there is an another option for easy install.
+Or, you can manually get a specific version of terraform binary from the websiate. Move to the [Downloads](https://www.terraform.io/downloads.html) page and look for the appropriate package for your system. Download the selected zip archive package. Unzip and install terraform by navigating to a directory included in your system's `PATH`.
+
+Or, you can use [tfenv](https://github.com/tfutils/tfenv) utility. It is very useful and easy solution to install and switch the multiple versions of terraform-cli.
+
+First, install tfenv using brew.
 ```
 brew install tfenv
 ```
-You can use this utility to make it ease to install and switch terraform binaries in your workspace like below.
+Then, you can use tfenv in your workspace like below.
 ```
-tfenv install 0.12.18
-tfenv use 0.12.18
+tfenv install <version>
+tfenv use <version>
 ```
 Also this tool is helpful to upgrade terraform v0.12. It is a major release focused on configuration language improvements and thus includes some changes that you'll need to consider when upgrading. But the version 0.11 and 0.12 are very different. So if some codes are written in older version and others are in 0.12 it would be great for us to have nice tool to support quick switching of version.
 ```
 tfenv list
-tfenv use 0.12.18
-tfenv use 0.11.14
 tfenv install latest
-tfenv use 0.12.18
+tfenv use <version>
 ```
 
 ### Setup
-```hcl
+```
 module "aurora" {
   source  = "Young-ook/aurora/aws"
   name    = "aurora"
   tags    = { env = "test" }
 }
 ```
+
 Run terraform:
 ```
 terraform init
