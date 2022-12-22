@@ -25,7 +25,7 @@ terraform apply -var-file fixture.tc1.tfvars
 ```
 
 ## Utilities
-# Amazon RDS Proxy
+### Amazon RDS Proxy
 By using [Amazon RDS Proxy](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html), you can allow your applications to pool and share database connections to improve their ability to scale. RDS Proxy makes applications more resilient to database failures by automatically connecting to a standby DB instance while preserving application connections. This is an example on how to create Amazon Aurora cluster and RDS Proxy on the AWS. If you want know more details about RDS Proxy terraform module, please check out [this](https://github.com/Young-ook/terraform-aws-aurora/tree/main/modules/proxy).
 
 ## Computing options
