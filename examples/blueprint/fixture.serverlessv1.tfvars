@@ -5,5 +5,9 @@ aurora_cluster = {
   user              = "yourid"
   database          = "yourdb"
   apply_immediately = "false"
+  scaling = {
+    max_capacity = 128
+    min_capacity = 2
+  }
 }
 aurora_instances = []
