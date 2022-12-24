@@ -22,7 +22,7 @@ module "main" {
     version           = "8.0.mysql_aurora.3.02.1"
     mode              = "provisioned"
     scaling_v2 = {
-      max_capacity = 128
+      max_capacity = 64
       min_capacity = 4
     }
   }
