@@ -82,7 +82,7 @@ resource "aws_rds_cluster" "db" {
   tags                                = merge(local.default-tags, var.tags)
 
   dynamic "scaling_configuration" {
-    for_each = { for k, v in var.aurora_cluster : k => v if k == "scaling" }
+    for_each = (lookup(var.aurora_cluster, "scaling", null) == null ? [] : toset([lookup(var.aurora_cluster, "scaling")]))
     content {
       max_capacity             = lookup(scaling_configuration.value, "max_capacity", 256)
       min_capacity             = lookup(scaling_configuration.value, "min_capacity", 2)
@@ -93,7 +93,7 @@ resource "aws_rds_cluster" "db" {
   }
 
   dynamic "serverlessv2_scaling_configuration" {
-    for_each = { for k, v in var.aurora_cluster : k => v if k == "scaling_v2" }
+    for_each = (lookup(var.aurora_cluster, "scaling_v2", null) == null ? [] : toset([lookup(var.aurora_cluster, "scaling_v2")]))
     content {
       max_capacity = lookup(serverlessv2_scaling_configuration.value, "max_capacity", 128.0)
       min_capacity = lookup(serverlessv2_scaling_configuration.value, "min_capacity", 0.5)
