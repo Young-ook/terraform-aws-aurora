@@ -4,7 +4,7 @@
 ![rds-vs-aurora-architecture-comparison](images/rds-vs-aurora-architecture-comparison.png)
 
 ## Examples
-- [RDS Blueprint](https://github.com/Young-ook/terraform-aws-aurora/tree/main/examples/blueprint)
+- [Amazon RDS Blueprint](https://github.com/Young-ook/terraform-aws-aurora/tree/main/examples/blueprint)
 - [Is Amazon RDS for PostgreSQL or Amazon Aurora PostgreSQL a better choice for me?](https://aws.amazon.com/blogs/database/is-amazon-rds-for-postgresql-or-amazon-aurora-postgresql-a-better-choice-for-me/)
 
 ## Getting started
