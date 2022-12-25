@@ -47,7 +47,7 @@ variable "aurora_instances" {
 variable "name" {
   description = "The logical name of the module instance"
   type        = string
-  default     = "db"
+  default     = null
 }
 
 ### tags
