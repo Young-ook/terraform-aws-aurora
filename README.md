@@ -5,7 +5,7 @@
 
 ## Examples
 - [Amazon RDS Blueprint](https://github.com/Young-ook/terraform-aws-aurora/tree/main/examples/blueprint)
-- [Chaos Engineering with AWS Fault Injection Simulator](https://github.com/Young-ook/terraform-aws-fis)
+- [AWS FIS Blueprint (Chaos Engineering)](https://github.com/Young-ook/terraform-aws-fis/blob/main/examples/blueprint)
 
 ## Getting started
 ### AWS CLI
