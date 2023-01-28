@@ -5,8 +5,7 @@
 
 ## Examples
 - [Amazon RDS Blueprint](https://github.com/Young-ook/terraform-aws-aurora/tree/main/examples/blueprint)
-- [Chaos Engineering with AWS Fault Injection Simulator](https://github.com/Young-ook/terraform-aws-fis)
-- [Is Amazon RDS for PostgreSQL or Amazon Aurora PostgreSQL a better choice for me?](https://aws.amazon.com/blogs/database/is-amazon-rds-for-postgresql-or-amazon-aurora-postgresql-a-better-choice-for-me/)
+- [AWS FIS Blueprint (Chaos Engineering)](https://github.com/Young-ook/terraform-aws-fis/blob/main/examples/blueprint)
 
 ## Getting started
 ### AWS CLI
@@ -60,3 +59,7 @@ Run terraform:
 terraform init
 terraform apply
 ```
+
+# Additional Resources
+## Amazon Aurora
+- [Is Amazon RDS for PostgreSQL or Amazon Aurora PostgreSQL a better choice for me?](https://aws.amazon.com/blogs/database/is-amazon-rds-for-postgresql-or-amazon-aurora-postgresql-a-better-choice-for-me/)
