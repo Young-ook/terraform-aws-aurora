@@ -1,3 +1,5 @@
+### default variables
+
 locals {
   default_mysql_cluster = {
     engine              = "aurora-mysql"

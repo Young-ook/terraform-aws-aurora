@@ -1,4 +1,4 @@
-# output variables
+### output variables
 
 output "cluster" {
   description = "Aurora cluster"

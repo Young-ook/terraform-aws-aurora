@@ -1,6 +1,6 @@
-# amazon aurora cluster
+### Amazon Aurora Cluster
 
-# condition
+### condition
 locals {
   enabled           = (var.aurora_cluster != null ? ((length(var.aurora_cluster) > 0) ? true : false) : false)
   compatibility     = (local.enabled ? lookup(var.aurora_cluster, "engine", "aurora-mysql") : "aurora-mysql")
@@ -9,21 +9,45 @@ locals {
   password          = lookup(var.aurora_cluster, "password", random_password.password.result)
 }
 
-# security/password
+### security/password
 resource "random_password" "password" {
   length           = 16
   special          = true
   override_special = "‘~!@#$%^*()_-+={}[],.;?':|"
 }
 
-# subnet group
+### security/firewall
+resource "aws_security_group" "db" {
+  count       = local.enabled ? 1 : 0
+  name        = format("%s", local.name)
+  description = format("security group for %s", local.name)
+  vpc_id      = var.vpc
+  tags        = merge(local.default-tags, var.tags)
+
+  ingress {
+    from_port   = lookup(var.aurora_cluster, "port", local.default_cluster["port"])
+    to_port     = lookup(var.aurora_cluster, "port", local.default_cluster["port"])
+    protocol    = "tcp"
+    cidr_blocks = var.cidrs
+    self        = true
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+### network/subnets
 resource "aws_db_subnet_group" "db" {
   name       = format("%s-db", local.name)
   subnet_ids = var.subnets
   tags       = merge(local.default-tags, var.tags)
 }
 
-# parameter groups
+### database/parameters
 resource "aws_rds_cluster_parameter_group" "db" {
   name = format("%s-db-cluster-params", local.name)
   tags = merge(local.default-tags, var.tags)
@@ -62,7 +86,7 @@ resource "aws_db_parameter_group" "db" {
   }
 }
 
-# rds cluster
+### database/cluster
 resource "aws_rds_cluster" "db" {
   cluster_identifier                  = local.name
   engine                              = lookup(var.aurora_cluster, "engine", local.default_cluster.engine)
@@ -106,7 +130,7 @@ resource "aws_rds_cluster" "db" {
   }
 }
 
-# rds instances
+### database/instance
 resource "aws_rds_cluster_instance" "db" {
   depends_on              = [aws_rds_cluster.db]
   for_each                = { for k, v in var.aurora_instances : k => v }

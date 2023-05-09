@@ -1,3 +1,5 @@
+### input variables
+
 ### network
 variable "vpc" {
   description = "The VPC ID to deploy the cluster"
