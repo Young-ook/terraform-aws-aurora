@@ -1,6 +1,11 @@
-## rds proxy
+### Amazon RDS Proxy
 
-# parameters
+### aws partition and region (global, gov, china)
+module "aws" {
+  source = "Young-ook/spinnaker/aws//modules/aws-partitions"
+}
+
+### database/parameter
 locals {
   security_groups     = var.security_groups == [] ? null : var.security_groups
   debug_logging       = lookup(var.proxy_config, "debug_logging", local.default_proxy_config.debug_logging)
@@ -15,12 +20,7 @@ locals {
   user_password       = lookup(var.auth_config, "user_password") # required
 }
 
-# aws partition and region (global, gov, china)
-module "aws" {
-  source = "Young-ook/spinnaker/aws//modules/aws-partitions"
-}
-
-# security/secret
+### security/secret
 module "vault" {
   source  = "Young-ook/passport/aws//modules/aws-secrets"
   version = "0.0.4"
@@ -28,7 +28,7 @@ module "vault" {
   secret  = local.user_password
 }
 
-# security/policy
+### security/policy
 resource "aws_iam_role" "proxy" {
   name = local.name
   tags = merge(local.default-tags, var.tags)
@@ -49,7 +49,7 @@ resource "aws_iam_role_policy_attachment" "get-secret" {
   policy_arn = module.vault.policy_arns.read
 }
 
-# proxy
+### database/proxy
 resource "aws_db_proxy" "proxy" {
   name                   = local.name
   tags                   = merge(local.default-tags, var.tags)

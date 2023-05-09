@@ -1,3 +1,5 @@
+### labels
+
 ### frigga name
 module "frigga" {
   source  = "Young-ook/spinnaker/aws//modules/frigga"

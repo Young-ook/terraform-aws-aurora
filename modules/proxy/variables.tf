@@ -1,3 +1,5 @@
+### input variables
+
 ### network
 variable "subnets" {
   description = "The subnet IDs for rds"
