@@ -1,3 +1,5 @@
+### labels
+
 resource "random_string" "iid" {
   for_each = { for k, v in var.aurora_instances : k => v }
   length   = 5

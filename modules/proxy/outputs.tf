@@ -1,4 +1,4 @@
-# output variables
+### output variables
 
 output "proxy" {
   description = "RDS proxy"
