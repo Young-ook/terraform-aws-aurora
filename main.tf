@@ -42,16 +42,15 @@ resource "aws_security_group" "db" {
 
 ### network/subnets
 resource "aws_db_subnet_group" "db" {
-  name       = format("%s-db", local.name)
+  name       = local.name
   subnet_ids = var.subnets
   tags       = merge(local.default-tags, var.tags)
 }
 
 ### database/parameters
 resource "aws_rds_cluster_parameter_group" "db" {
-  name = format("%s-db-cluster-params", local.name)
-  tags = merge(local.default-tags, var.tags)
-
+  name   = local.name
+  tags   = merge(local.default-tags, var.tags)
   family = lookup(var.aurora_cluster, "family", local.default_cluster.family)
   dynamic "parameter" {
     for_each = lookup(var.aurora_cluster, "cluster_parameters", local.default_cluster.cluster_parameters)
@@ -68,11 +67,9 @@ resource "aws_rds_cluster_parameter_group" "db" {
 
 resource "aws_db_parameter_group" "db" {
   for_each = { for key, val in var.aurora_instances : key => val }
-  name     = format("%s-db-instance-%s-params", local.name, each.key)
+  name     = join("-", [local.name, random_string.iid[each.key].result])
   tags     = merge(local.default-tags, var.tags)
-
-
-  family = lookup(var.aurora_cluster, "family", local.default_cluster.family)
+  family   = lookup(var.aurora_cluster, "family", local.default_cluster.family)
   dynamic "parameter" {
     for_each = lookup(var.aurora_instances[each.key], "instance_parameters", local.default_instances.0.instance_parameters)
     content {
