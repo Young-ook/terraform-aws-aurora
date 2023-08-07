@@ -18,8 +18,7 @@ resource "random_password" "password" {
 
 ### security/firewall
 resource "aws_security_group" "db" {
-  count       = local.enabled ? 1 : 0
-  name        = format("%s", local.name)
+  name        = local.name
   description = format("security group for %s", local.name)
   vpc_id      = var.vpc
   tags        = merge(local.default-tags, var.tags)
@@ -102,7 +101,7 @@ resource "aws_rds_cluster" "db" {
   backup_retention_period             = lookup(var.aurora_cluster, "backup_retention", local.default_cluster.backup_retention)
   db_subnet_group_name                = aws_db_subnet_group.db.name
   db_cluster_parameter_group_name     = aws_rds_cluster_parameter_group.db.name
-  vpc_security_group_ids              = coalescelist(aws_security_group.db.*.id, [])
+  vpc_security_group_ids              = coalescelist([aws_security_group.db.id], [])
   tags                                = merge(local.default-tags, var.tags)
 
   dynamic "scaling_configuration" {
