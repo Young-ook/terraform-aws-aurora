@@ -19,9 +19,7 @@ variable "azs" {
   default     = ["ap-northeast-2a", "ap-northeast-2c", "ap-northeast-2d"]
 }
 
-### rdb cluster
-#  [CAUTION] Changing the snapshot ID. will force a new resource.
-#
+### database
 variable "aurora_cluster" {
   description = "RDS Aurora for mysql cluster definition"
   default     = {}

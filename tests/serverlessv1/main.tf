@@ -15,7 +15,7 @@ module "main" {
   source  = "../.."
   vpc     = module.vpc.vpc.id
   subnets = values(module.vpc.subnets["public"])
-  aurora_cluster = {
+  cluster = {
     apply_immediately = "false"
     engine            = "aurora-mysql"
     version           = "5.7.mysql_aurora.2.08.3"
@@ -25,7 +25,7 @@ module "main" {
       min_capacity = 4
     }
   }
-  aurora_instances = []
+  instances = []
 }
 
 resource "test_assertions" "max_capacity" {
