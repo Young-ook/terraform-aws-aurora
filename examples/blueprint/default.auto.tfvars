@@ -1,7 +1,8 @@
 tags = { example = "rds_blueprint" }
 aurora_cluster = {
   engine            = "aurora-mysql"
-  version           = "5.7.mysql_aurora.2.07.1"
+  family            = "aurora-mysql8.0"
+  version           = "8.0.mysql_aurora.3.01.0"
   port              = "3306"
   user              = "yourid"
   database          = "yourdb"
