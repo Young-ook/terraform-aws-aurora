@@ -15,7 +15,7 @@ module "main" {
   source  = "../.."
   vpc     = module.vpc.vpc.id
   subnets = values(module.vpc.subnets["public"])
-  aurora_cluster = {
+  cluster = {
     apply_immediately = "false"
     engine            = "aurora-mysql"
     family            = "aurora-mysql8.0"
@@ -26,7 +26,7 @@ module "main" {
       min_capacity = 4
     }
   }
-  aurora_instances = [
+  instances = [
     {
       instance_type = "db.serverless"
     },

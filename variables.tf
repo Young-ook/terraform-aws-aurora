@@ -17,12 +17,11 @@ variable "subnets" {
   type        = list(string)
 }
 
-### rdb cluster (aurora)
-
+### cluster
 #  [CAUTION] Changing the snapshot ID. will force a new resource.
 
-variable "aurora_cluster" {
-  description = "RDS Aurora for mysql cluster definition"
+variable "cluster" {
+  description = "Aurora cluster definition"
   default = {
     engine             = "aurora-mysql"
     mode               = "provisioned" # Allowed values: global, multimaster, parallelquery, provisioned, serverless.
@@ -35,8 +34,8 @@ variable "aurora_cluster" {
   }
 }
 
-variable "aurora_instances" {
-  description = "RDS Aurora for mysql instances definition"
+variable "instances" {
+  description = "Aurora instances definition"
   default = [
     {
       node_type           = "db.t3.medium"
