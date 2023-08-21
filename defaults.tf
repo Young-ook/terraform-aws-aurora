@@ -2,10 +2,10 @@
 
 locals {
   default_mysql_cluster = {
-    engine              = "aurora-mysql"
     mode                = "provisioned"
-    family              = "aurora-mysql5.7"
-    version             = "5.7.mysql_aurora.2.07.1"
+    engine              = "aurora-mysql"
+    family              = "aurora-mysql8.0"
+    version             = "8.0.mysql_aurora.3.01.0"
     port                = "3306"
     database            = "yourdb"
     user                = "yourid"
@@ -31,8 +31,8 @@ locals {
   ]
 
   default_postgresql_cluster = {
-    engine              = "aurora-postgresql"
     mode                = "provisioned"
+    engine              = "aurora-postgresql"
     family              = "aurora-postgresql11"
     version             = "11.7"
     port                = "5432"
