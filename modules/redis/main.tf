@@ -7,9 +7,9 @@ locals {
 
 ### security/password
 resource "random_password" "password" {
-  length           = 16
+  length           = 32
   special          = true
-  override_special = "%*()_=+[]{}<>?"
+  override_special = "!&#$^<>-"
 }
 
 ### security/firewall
