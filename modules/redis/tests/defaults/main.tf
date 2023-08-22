@@ -24,7 +24,7 @@ resource "test_assertions" "pet_name" {
   component = "pet_name"
   check "pet_name" {
     description = "default random pet name"
-    condition   = can(length(regexall("^redis", module.main.cluster.name)) > 0)
+    condition   = can(length(regexall("^redis", module.main.cluster.id)) > 0)
   }
 }
 

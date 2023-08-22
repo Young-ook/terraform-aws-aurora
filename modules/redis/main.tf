@@ -35,6 +35,13 @@ resource "aws_security_group" "redis" {
   }
 }
 
+### network/subnets
+resource "aws_elasticache_subnet_group" "redis" {
+  name       = local.name
+  tags       = merge(local.default-tags, var.tags)
+  subnet_ids = var.subnets
+}
+
 ### cache/cluster
 resource "aws_elasticache_replication_group" "redis" {
   replication_group_id       = local.name
@@ -44,6 +51,7 @@ resource "aws_elasticache_replication_group" "redis" {
   engine_version             = lookup(var.cluster, "engine_version", local.default_cluster["engine_version"])
   port                       = lookup(var.cluster, "port", local.default_cluster["port"])
   security_group_ids         = [aws_security_group.redis.id]
+  subnet_group_name          = aws_elasticache_subnet_group.redis.name
   node_type                  = lookup(var.cluster, "node_type", local.default_cluster["node_type"])
   parameter_group_name       = lookup(var.cluster, "parameter_group_name", local.default_cluster["parameter_group_name"])
   num_node_groups            = lookup(var.cluster, "num_node_groups", local.default_cluster["num_node_groups"])
