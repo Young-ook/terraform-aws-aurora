@@ -5,8 +5,8 @@
 
 ## Examples
 - [Amazon RDS Blueprint](https://github.com/Young-ook/terraform-aws-aurora/tree/main/examples/blueprint)
+- [Analytics on AWS](https://github.com/Young-ook/terraform-aws-emr/tree/main/examples/blueprint)
 - [AWS FIS Blueprint (Chaos Engineering)](https://github.com/Young-ook/terraform-aws-fis/blob/main/examples/blueprint)
-- [Data Lake Blueprint](https://github.com/Young-ook/terraform-aws-emr/tree/main/examples/blueprint)
 
 ## Getting started
 ### AWS CLI
