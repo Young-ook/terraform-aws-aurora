@@ -1,10 +1,5 @@
 ### Amazon RDS Proxy
 
-### aws partition and region (global, gov, china)
-module "aws" {
-  source = "Young-ook/spinnaker/aws//modules/aws-partitions"
-}
-
 ### database/parameter
 locals {
   security_groups     = var.security_groups == [] ? null : var.security_groups
