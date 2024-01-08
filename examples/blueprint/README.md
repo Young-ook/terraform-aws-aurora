@@ -59,7 +59,11 @@ terraform destroy -var-file fixture.tc1.tfvars
 # Additional Resources
 ## Amazon Aurora
 - [How can I increase the binlog retention in my Aurora MySQL-Compatible DB cluster?](https://repost.aws/knowledge-center/aurora-mysql-increase-binlog-retention)
+- [Improving application availability with Amazon RDS Proxy](https://aws.amazon.com/blogs/database/improving-application-availability-with-amazon-rds-proxy/)
 
 ## AWS Graviton
 - [Amazon's Arm-based Graviton2 Against AMD and Intel](https://www.anandtech.com/show/15578/cloud-clash-amazon-graviton2-arm-against-intel-and-amd)
 - [Graviton2 Single Threaded Performance](https://www.anandtech.com/show/15578/cloud-clash-amazon-graviton2-arm-against-intel-and-amd/5)
+
+## ProxySQL
+- [Load Balancing ProxySQL in AWS](https://www.percona.com/blog/load-balancing-proxysql-in-aws/)
