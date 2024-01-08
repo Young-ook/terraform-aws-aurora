@@ -18,7 +18,7 @@ locals {
 ### security/secret
 module "vault" {
   source  = "Young-ook/passport/aws//modules/aws-secrets"
-  version = "0.0.4"
+  version = "0.0.12"
   name    = join("-", [local.user_name, local.name])
   secret  = local.user_password
 }
