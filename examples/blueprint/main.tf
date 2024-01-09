@@ -11,7 +11,7 @@ provider "aws" {
 ### vpc
 module "vpc" {
   source  = "Young-ook/vpc/aws"
-  version = "1.0.3"
+  version = "1.0.7"
   name    = var.name
   tags    = var.tags
   vpc_config = {
@@ -24,15 +24,15 @@ module "vpc" {
 
 ### rds cluster - amazon aurora
 module "rds" {
-  source           = "Young-ook/aurora/aws"
-  version          = "2.1.3"
-  name             = var.name
-  tags             = var.tags
-  vpc              = module.vpc.vpc.id
-  subnets          = slice(values(module.vpc.subnets["private"]), 0, 3)
-  cidrs            = [module.vpc.vpc.cidr_block]
-  aurora_cluster   = var.aurora_cluster
-  aurora_instances = var.aurora_instances
+  source    = "Young-ook/aurora/aws"
+  version   = "2.2.1"
+  name      = var.name
+  tags      = var.tags
+  vpc       = module.vpc.vpc.id
+  subnets   = slice(values(module.vpc.subnets["private"]), 0, 3)
+  cidrs     = [module.vpc.vpc.cidr_block]
+  cluster   = var.aurora_cluster
+  instances = var.aurora_instances
 }
 
 resource "time_sleep" "wait" {
@@ -43,7 +43,7 @@ resource "time_sleep" "wait" {
 module "proxy" {
   depends_on = [time_sleep.wait]
   source     = "Young-ook/aurora/aws//modules/proxy"
-  version    = "2.1.3"
+  version    = "2.2.1"
   tags       = var.tags
   subnets    = slice(values(module.vpc.subnets["private"]), 0, 3)
   proxy_config = {
