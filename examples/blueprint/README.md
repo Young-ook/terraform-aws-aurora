@@ -67,3 +67,6 @@ terraform destroy -var-file fixture.tc1.tfvars
 
 ## ProxySQL
 - [Load Balancing ProxySQL in AWS](https://www.percona.com/blog/load-balancing-proxysql-in-aws/)
+
+## Architecture Patterns
+- [CQRS](https://martinfowler.com/bliki/CQRS.html)
