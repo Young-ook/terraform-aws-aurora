@@ -66,6 +66,11 @@ terraform destroy -var-file fixture.tc1.tfvars
 - [Modernizing the Amazon Database Infrastructure](https://d1.awsstatic.com/whitepapers/modernizing-amazon-database-infrastructure.pdf?dbd_how1)
 - [How LogMeIn migrated a billion records online from Oracle to Amazon Aurora and achieved sub-millisecond response time](https://aws.amazon.com/blogs/modernizing-with-aws/how-logmein-migrated-a-billion-records-online-from-oracle-to-amazon-aurora-and-achieved-sub-millisecond-response-time/)
 
+## Amazon ElastiCache for Redis
+- [ElastiCache best practices and caching strategies](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/BestPractices.html)
+- [Common ElastiCache Use Cases and How ElastiCache Can Help](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-use-cases.html)
+- [Basic Redis Rate-limiting Demo Python (Django)](https://github.com/redis-developer/basic-rate-limiting-demo-python)
+
 ## Amazon RDS Proxy
 - [Improving application availability with Amazon RDS Proxy](https://aws.amazon.com/blogs/database/improving-application-availability-with-amazon-rds-proxy/)
 
