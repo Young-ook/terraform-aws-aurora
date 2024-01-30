@@ -18,3 +18,7 @@ sysbench --version
 ```
 
 # Known Issues
+
+# Additional Resources
+- [Performance Test: Amazon Aurora-MySQL on AWS Graviton2](https://github.com/gnosia93/oracle-to-postgres/blob/main/appendix/mysql-aurora-graviton2.md)
+- [Performance Test: Amazon Aurora-PostgreSQL on AWS Graviton2](https://github.com/gnosia93/oracle-to-postgres/blob/main/appendix/postgres-aurora-graviton2.md)

@@ -43,7 +43,7 @@ resource "time_sleep" "wait" {
 module "proxy" {
   depends_on = [time_sleep.wait]
   source     = "Young-ook/aurora/aws//modules/proxy"
-  version    = "2.2.1"
+  version    = "2.2.2"
   tags       = var.tags
   subnets    = slice(values(module.vpc.subnets["private"]), 0, 3)
   proxy_config = {
