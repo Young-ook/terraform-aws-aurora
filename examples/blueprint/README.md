@@ -75,6 +75,11 @@ terraform destroy -var-file fixture.tc1.tfvars
 ## Amazon RDS Proxy
 - [Improving application availability with Amazon RDS Proxy](https://aws.amazon.com/blogs/database/improving-application-availability-with-amazon-rds-proxy/)
 
+## AWS DMS (Database Migration Service)
+- [Debugging Your AWS DMS Migrations: What to Do When Things Go Wrong (Part 1)](https://aws.amazon.com/blogs/database/debugging-your-aws-dms-migrations-what-to-do-when-things-go-wrong-part-1/)
+- [Debugging Your AWS DMS Migrations: What to Do When Things Go Wrong (Part 2)](https://aws.amazon.com/blogs/database/debugging-your-aws-dms-migrations-what-to-do-when-things-go-wrong-part-2/)
+- [Debugging Your AWS DMS Migrations: What to Do When Things Go Wrong (Part 3)](https://aws.amazon.com/blogs/database/debugging-your-aws-dms-migrations-what-to-do-when-things-go-wrong-part-3/)
+
 ## AWS Graviton
 - [Amazon's Arm-based Graviton2 Against AMD and Intel](https://www.anandtech.com/show/15578/cloud-clash-amazon-graviton2-arm-against-intel-and-amd)
 - [Graviton2 Single Threaded Performance](https://www.anandtech.com/show/15578/cloud-clash-amazon-graviton2-arm-against-intel-and-amd/5)
