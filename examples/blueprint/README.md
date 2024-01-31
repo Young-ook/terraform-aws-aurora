@@ -57,7 +57,12 @@ terraform destroy -var-file fixture.tc1.tfvars
 ```
 
 # Additional Resources
-## Amazon Aurora
+## Amazon ElastiCache for Redis
+- [ElastiCache best practices and caching strategies](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/BestPractices.html)
+- [Common ElastiCache Use Cases and How ElastiCache Can Help](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-use-cases.html)
+- [Basic Redis Rate-limiting Demo Python (Django)](https://github.com/redis-developer/basic-rate-limiting-demo-python)
+
+## Amazon RDS
 - [How can I increase the binlog retention in my Aurora MySQL-Compatible DB cluster?](https://repost.aws/knowledge-center/aurora-mysql-increase-binlog-retention)
 - [Is Amazon RDS for PostgreSQL or Amazon Aurora PostgreSQL a better choice for me?](https://aws.amazon.com/blogs/database/is-amazon-rds-for-postgresql-or-amazon-aurora-postgresql-a-better-choice-for-me/)
 - [Introducing the Aurora Storage Engine](https://aws.amazon.com/ko/blogs/database/introducing-the-aurora-storage-engine/)
@@ -65,14 +70,15 @@ terraform destroy -var-file fixture.tc1.tfvars
 - [Amazon Aurora-MySQL Workshop](https://catalog.workshops.aws/awsauroramysql/en-US)
 - [Modernizing the Amazon Database Infrastructure](https://d1.awsstatic.com/whitepapers/modernizing-amazon-database-infrastructure.pdf?dbd_how1)
 - [How LogMeIn migrated a billion records online from Oracle to Amazon Aurora and achieved sub-millisecond response time](https://aws.amazon.com/blogs/modernizing-with-aws/how-logmein-migrated-a-billion-records-online-from-oracle-to-amazon-aurora-and-achieved-sub-millisecond-response-time/)
-
-## Amazon ElastiCache for Redis
-- [ElastiCache best practices and caching strategies](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/BestPractices.html)
-- [Common ElastiCache Use Cases and How ElastiCache Can Help](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-use-cases.html)
-- [Basic Redis Rate-limiting Demo Python (Django)](https://github.com/redis-developer/basic-rate-limiting-demo-python)
+- [RDS Snapshot Export to S3 Pipeline](https://github.com/aws-samples/rds-snapshot-export-to-s3-pipeline)
 
 ## Amazon RDS Proxy
 - [Improving application availability with Amazon RDS Proxy](https://aws.amazon.com/blogs/database/improving-application-availability-with-amazon-rds-proxy/)
+
+## AWS DMS (Database Migration Service)
+- [Debugging Your AWS DMS Migrations: What to Do When Things Go Wrong (Part 1)](https://aws.amazon.com/blogs/database/debugging-your-aws-dms-migrations-what-to-do-when-things-go-wrong-part-1/)
+- [Debugging Your AWS DMS Migrations: What to Do When Things Go Wrong (Part 2)](https://aws.amazon.com/blogs/database/debugging-your-aws-dms-migrations-what-to-do-when-things-go-wrong-part-2/)
+- [Debugging Your AWS DMS Migrations: What to Do When Things Go Wrong (Part 3)](https://aws.amazon.com/blogs/database/debugging-your-aws-dms-migrations-what-to-do-when-things-go-wrong-part-3/)
 
 ## AWS Graviton
 - [Amazon's Arm-based Graviton2 Against AMD and Intel](https://www.anandtech.com/show/15578/cloud-clash-amazon-graviton2-arm-against-intel-and-amd)
