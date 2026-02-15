@@ -10,8 +10,8 @@ provider "aws" {
 
 ### vpc
 module "vpc" {
-  source  = "Young-ook/vpc/aws"
-  version = "1.0.7"
+  source  = "Young-ook/ec2/aws//modules/vpc"
+  version = "1.0.8"
   name    = var.name
   tags    = var.tags
   vpc_config = {
@@ -57,8 +57,8 @@ module "proxy" {
 
 ### ec2 cluster - sysbench
 module "ec2" {
-  source  = "Young-ook/ssm/aws"
-  version = "1.0.5"
+  source  = "Young-ook/ec2/aws"
+  version = "1.0.8"
   name    = var.name
   tags    = var.tags
   subnets = slice(values(module.vpc.subnets["private"]), 0, 3)
